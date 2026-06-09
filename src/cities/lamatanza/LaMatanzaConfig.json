@@ -1,0 +1,29 @@
+{
+  "ciudad": "La Matanza",
+  "tipo": "Ciudad satélite / Suburbio del AMBA",
+  "provincia": "Buenos Aires",
+  "poblacion_inicial": 1750000,
+
+  "parametros": {
+    "alpha": 0.03,
+    "beta": 0.00000012,
+    "delta": 0.00000010,
+    "gamma": 0.045
+  },
+
+  "condiciones_iniciales": {
+    "poblacion_sana": 1749900,
+    "poblacion_infectada": 100
+  },
+
+  "simulacion": {
+    "dias": 365
+  },
+
+  "justificacion": {
+    "alpha": "Tasa de crecimiento moderada. La Matanza es una ciudad joven con alta natalidad pero también alta movilidad y exposición, lo que limita la recuperación natural.",
+    "beta": "Tasa de contagio alta. Alta densidad poblacional (~2800 hab/km²) combinada con transporte masivo (trenes, colectivos llenos) favorece el contacto entre sanos e infectados.",
+    "delta": "Propagación viral alta. Ambiente congestionado, mala ventilación en transporte público y hacinamiento en zonas residenciales potencian la eficiencia del virus.",
+    "gamma": "Recuperación baja. Escasez de hospitales propios: La Matanza tiene ~3 hospitales públicos para 1.75M de habitantes. Depende del sistema sanitario del AMBA para casos graves."
+  }
+}

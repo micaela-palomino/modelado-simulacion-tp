@@ -1,0 +1,174 @@
+/**
+ * loader.js — Carga, parseo y métricas de los datos de cada ciudad.
+ *
+ * Para agregar una ciudad nueva:
+ *   1. Agregar entrada en el array CIUDADES con sus params y colores
+ *   2. Colocar su CSV en dashboard/data/<id>.csv
+ */
+
+const CIUDADES = [
+  {
+    id: 'lamatanza',
+    nombre: 'La Matanza',
+    tipo: 'Satélite / Suburbio AMBA',
+    color: '#e74c3c',             // infectados
+    colorSanos: '#3498db',        // sanos
+    colorRecuperados: '#27ae60',  // recuperados
+    poblacionTotal: 1750000,
+    params: {
+      alpha: { valor: 0.03,        label: 'α — Crecimiento sano',     desc: 'Ciudad joven con alta natalidad, pero alta exposición y movilidad limitan la recuperación natural de la población.' },
+      beta:  { valor: 0.00000012,  label: 'β — Tasa de contagio',     desc: 'Alta densidad (~2.800 hab/km²) + transporte masivo (trenes Roca, Belgrano Sur, cientos de líneas de colectivos) = contacto permanente entre sanos e infectados.' },
+      delta: { valor: 0.00000010,  label: 'δ — Propagación viral',    desc: 'Hacinamiento residencial y mala ventilación en viviendas precarias y transporte público potencian la eficiencia del virus.' },
+      gamma: { valor: 0.045,       label: 'γ — Recuperación',         desc: 'Solo ~3 hospitales públicos principales para 1.75M de habitantes. Sin alta complejidad propia; depende del sistema sanitario del AMBA.' },
+      sanoInicial:      1749900,
+      infectadoInicial: 100
+    }
+  },
+  // --- Agregar ciudades nuevas debajo ---
+  // {
+  //   id: 'bariloche',
+  //   nombre: 'Bariloche',
+  //   tipo: 'Turística',
+  //   color: '#9b59b6',
+  //   colorSanos: '#8e44ad',
+  //   colorRecuperados: '#1abc9c',
+  //   poblacionTotal: 130000,
+  //   params: { alpha: {...}, beta: {...}, delta: {...}, gamma: {...}, sanoInicial: 129900, infectadoInicial: 100 }
+  // },
+];
+
+// Datos cargados por ciudad: { dia, sanos, infectados, recuperados }
+const datosCiudades = {};
+
+/**
+ * Parsea el CSV y calcula recuperados = max(0, N - sanos - infectados).
+ * En Lotka-Volterra la población no se conserva, por eso se clampea a 0.
+ */
+function parsearCSV(texto, poblacionTotal) {
+  const lineas = texto.trim().split('\n');
+  const datos = [];
+
+  for (let i = 1; i < lineas.length; i++) {
+    const partes = lineas[i].split(',');
+    if (partes.length < 3) continue;
+
+    const sanos       = parseFloat(partes[1]);
+    const infectados  = parseFloat(partes[2]);
+    const recuperados = Math.max(0, poblacionTotal - sanos - infectados);
+
+    datos.push({
+      dia: parseInt(partes[0], 10),
+      sanos,
+      infectados,
+      recuperados
+    });
+  }
+
+  return datos;
+}
+
+function cargarCSVCiudad(ciudad) {
+  return fetch(`data/${ciudad.id}.csv`)
+    .then(res => {
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return res.text();
+    })
+    .then(texto => {
+      datosCiudades[ciudad.id] = parsearCSV(texto, ciudad.poblacionTotal);
+      console.log(`✓ ${ciudad.nombre}: ${datosCiudades[ciudad.id].length} días`);
+    })
+    .catch(err => {
+      console.warn(`⚠ ${ciudad.nombre} no disponible — ${err.message}`);
+    });
+}
+
+function cargarTodasLasCiudades() {
+  return Promise.all(CIUDADES.map(c => cargarCSVCiudad(c)));
+}
+
+function getCiudadesDisponibles() {
+  return CIUDADES.filter(c => datosCiudades[c.id] != null);
+}
+
+/**
+ * Estadísticas de comparación para la tabla:
+ * pico, día pico, duración del brote, % de población afectada.
+ */
+function calcularEstadisticas(idCiudad) {
+  const ciudad = CIUDADES.find(c => c.id === idCiudad);
+  const datos  = datosCiudades[idCiudad];
+  if (!datos || datos.length === 0 || !ciudad) return null;
+
+  // Pico de infectados
+  let picoInfectados = 0;
+  let diaPico = 0;
+  for (const p of datos) {
+    if (p.infectados > picoInfectados) {
+      picoInfectados = p.infectados;
+      diaPico        = p.dia;
+    }
+  }
+
+  // Duración del brote: días desde el pico hasta bajar al 1% del pico
+  const umbral = picoInfectados * 0.01;
+  let duracionBrote = datos[datos.length - 1].dia - diaPico;
+  for (const p of datos) {
+    if (p.dia > diaPico && p.infectados < umbral) {
+      duracionBrote = p.dia - diaPico;
+      break;
+    }
+  }
+
+  const porcentajeAfectado = (picoInfectados / ciudad.poblacionTotal) * 100;
+
+  return {
+    picoInfectados:    Math.round(picoInfectados),
+    diaPico,
+    duracionBrote,
+    porcentajeAfectado
+  };
+}
+
+/**
+ * Métricas del modelo Lotka-Volterra para el panel de análisis.
+ */
+function calcularMetricas(idCiudad) {
+  const ciudad = CIUDADES.find(c => c.id === idCiudad);
+  const datos  = datosCiudades[idCiudad];
+  if (!datos || !ciudad) return null;
+
+  const p     = ciudad.params;
+  const stats = calcularEstadisticas(idCiudad);
+
+  // R0 estimado: número reproductivo básico (aproximación para Lotka-Volterra)
+  const R0 = (p.beta.valor * p.sanoInicial) / p.gamma.valor;
+
+  // Tasa de colapso: % de sanos perdidos en el momento del pico
+  const sanoEnPico  = datos.find(d => d.dia === stats.diaPico)?.sanos ?? p.sanoInicial;
+  const tasaColapso = ((p.sanoInicial - sanoEnPico) / p.sanoInicial) * 100;
+
+  // Día de cruce: primer día en que infectados superan a sanos
+  let diaCruce = null;
+  for (const d of datos) {
+    if (d.infectados > d.sanos) { diaCruce = d.dia; break; }
+  }
+
+  // Ciclos de oscilación: cantidad de máximos locales por encima del 5% del pico
+  const umbralCiclo = stats.picoInfectados * 0.05;
+  let ciclos = 0;
+  for (let i = 1; i < datos.length - 1; i++) {
+    if (
+      datos[i].infectados > datos[i - 1].infectados &&
+      datos[i].infectados > datos[i + 1].infectados &&
+      datos[i].infectados > umbralCiclo
+    ) ciclos++;
+  }
+
+  return {
+    R0:                  R0.toFixed(2),
+    velocidadPropagacion: stats.diaPico,
+    tasaColapso:         tasaColapso.toFixed(1),
+    diaCruce,
+    ciclos
+  };
+}
