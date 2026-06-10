@@ -18,7 +18,8 @@
         "${workspaceFolder}/src",
         "${workspaceFolder}/src/core",
         "${workspaceFolder}/src/cities/lamatanza",
-        "${workspaceFolder}/src/cities/mendoza"
+        "${workspaceFolder}/src/cities/mendoza",
+        "${workspaceFolder}/src/cities/campana"
       ],
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal"

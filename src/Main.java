@@ -34,6 +34,10 @@ public class Main {
         BarilocheCity bariloche = new BarilocheCity();
         bariloche.ejecutarYExportar();
 
+        // --- Simulación: Campana ---
+        CampanaCity campana = new CampanaCity();
+        campana.ejecutarYExportar();
+
         // --- Agregar más ciudades aquí ---
         // Ejemplo para cuando otro grupo agregue su ciudad:
         //
