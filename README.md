@@ -221,5 +221,5 @@ Al comparar todas las ciudades, esperamos poder responder:
 | Grupo 2 | *(elegir ciudad)* | *(completar)* |
 | Grupo 3 | *(elegir ciudad)* | *(completar)* |
 | Grupo 4 | *(elegir ciudad)* | *(completar)* |
-| Grupo 5 | *(elegir ciudad)* | *(completar)* |
+| Grupo 5 | La Plata | Federico Pelech, Fernando Ale, Tatiana Tornillo |
 | Grupo 6 | *(elegir ciudad)* | *(completar)* |
