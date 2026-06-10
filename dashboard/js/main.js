@@ -48,7 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
     renderizarParametros(ciudades);
     renderizarConclusion(ciudades);
     renderizarInterpretacionFase(ciudades);
-    renderizarMarcoTeorico(ciudades);
 
     mostrarCargando(false);
     document.getElementById('dashboard-contenido').style.display = 'block';
@@ -438,107 +437,7 @@ function renderizarInterpretacionFase(ciudades) {
       &nbsp;|&nbsp;
       I* = α/β = ${params.alpha.valor} / ${params.beta.valor.toExponential(2)} =
       <strong>${Math.round(iEq).toLocaleString('es-AR')} hab. infectados</strong>
-      <br><small>Estado donde el virus y la población coexisten sin crecer ni decrecer. Los cuadrantes negativos son una extensión matemática para leer el campo de direcciones; la trayectoria física queda en el primer cuadrante.</small>
-    </div>
-  `;
-}
-
-// ─────────────────────────────────────────────────────────────
-// Marco teórico aplicado: equilibrio, nulclinas, Jacobiano
-// ─────────────────────────────────────────────────────────────
-
-function calcularAnalisisLineal(ciudad) {
-  if (!ciudad?.params) return null;
-
-  const p = ciudad.params;
-  const alpha = p.alpha.valor;
-  const beta = p.beta.valor;
-  const delta = p.delta.valor;
-  const gamma = p.gamma.valor;
-
-  const sEq = gamma / delta;
-  const iEq = alpha / beta;
-  const j12 = -beta * sEq;
-  const j21 = delta * iEq;
-  const traza = 0;
-  const determinante = alpha * gamma;
-  const omega = Math.sqrt(determinante);
-
-  return {
-    sEq,
-    iEq,
-    traza,
-    determinante,
-    omega,
-    j11: 0,
-    j12,
-    j21,
-    j22: 0
-  };
-}
-
-function fmtTeoria(valor) {
-  if (Math.abs(valor) >= 1000) return Math.round(valor).toLocaleString('es-AR');
-  if (Math.abs(valor) < 0.001 && valor !== 0) return valor.toExponential(2);
-  return Number(valor).toFixed(3);
-}
-
-function renderizarMarcoTeorico(ciudades) {
-  const contenedor = document.getElementById('teoria-contenedor');
-  if (!contenedor) return;
-
-  if (!ciudades.length) {
-    contenedor.innerHTML = '<p class="sin-datos">Seleccioná al menos una ciudad para ver el análisis teórico.</p>';
-    return;
-  }
-
-  const ciudad = ciudades[0];
-  const analisis = calcularAnalisisLineal(ciudad);
-  if (!analisis) return;
-
-  const subtitulo = document.getElementById('teoria-ciudad-subtitulo');
-  if (subtitulo) subtitulo.textContent = ciudad.nombre;
-
-  contenedor.innerHTML = `
-    <div class="teoria-card teoria-card-ancha">
-      <div class="teoria-kicker">Sistema autónomo no lineal</div>
-      <div class="teoria-formula">
-        <span>dS/dt = αS - βSI</span>
-        <span>dI/dt = δSI - γI</span>
-      </div>
-      <p>S(t) representa la población sana o presa. I(t) representa infectados/zombis o depredador. La simulación integra estas ecuaciones con Runge-Kutta de orden 4.</p>
-    </div>
-
-    <div class="teoria-card">
-      <div class="teoria-kicker">Punto de equilibrio</div>
-      <h3>E* = (${fmtTeoria(analisis.sEq)}, ${fmtTeoria(analisis.iEq)})</h3>
-      <p>S* = γ/δ e I* = α/β. En ese punto las derivadas se anulan: el sistema no cambia instantáneamente.</p>
-    </div>
-
-    <div class="teoria-card">
-      <div class="teoria-kicker">Nulclinas</div>
-      <h3>dS/dt = 0 · dI/dt = 0</h3>
-      <p>En el retrato de fase se dibujan como líneas punteadas. Separan regiones donde sanos e infectados crecen o decrecen.</p>
-    </div>
-
-    <div class="teoria-card">
-      <div class="teoria-kicker">Jacobiano en E*</div>
-      <div class="matriz-jacobiana">
-        <span>${fmtTeoria(analisis.j11)}</span><span>${fmtTeoria(analisis.j12)}</span>
-        <span>${fmtTeoria(analisis.j21)}</span><span>${fmtTeoria(analisis.j22)}</span>
-      </div>
-      <p>La linealización local permite estudiar la estabilidad cerca del equilibrio usando autovalores.</p>
-    </div>
-
-    <div class="teoria-card">
-      <div class="teoria-kicker">Autovalores</div>
-      <h3>λ = ± ${fmtTeoria(analisis.omega)} i</h3>
-      <p>Traza = ${fmtTeoria(analisis.traza)} y determinante = ${fmtTeoria(analisis.determinante)}. El modelo Lotka-Volterra ideal produce un centro: órbitas cerradas alrededor del equilibrio teórico.</p>
-    </div>
-
-    <div class="teoria-card teoria-card-ancha">
-      <div class="teoria-kicker">Bifurcaciones</div>
-      <p>Si variamos parámetros como β o γ, se desplazan las nulclinas y cambia la posición del equilibrio. Eso permite explorar escenarios: más contagio mueve I* y menor recuperación mueve S*, alterando el comportamiento del brote zombi.</p>
+      <br><small>Estado donde el virus y la población coexisten sin crecer ni decrecer.</small>
     </div>
   `;
 }

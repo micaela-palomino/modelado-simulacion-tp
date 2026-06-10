@@ -120,7 +120,6 @@ function aplicarFiltros() {
   actualizarGraficos(activas, estadoFiltros.diaMin, estadoFiltros.diaMax);
   actualizarGraficoFase(activas, estadoFiltros.diaMin, estadoFiltros.diaMax);
   actualizarTabla(activas);
-  if (typeof renderizarMarcoTeorico === 'function') renderizarMarcoTeorico(activas);
 }
 
 // setMaxDias se llama desde main.js después de cargar los datos

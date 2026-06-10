@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Main",
+      "request": "launch",
+      "mainClass": "Main",
+      "projectName": "tp-bariloche_437a7a3f"
+    },
+    {
+      "type": "java",
       "name": "Ejecutar Simulación TP",
       "request": "launch",
       "mainClass": "Main",

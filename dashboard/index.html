@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Catástrofe zombi — Modelo Lotka-Volterra | UADE</title>
+  <title>Simulación de Pandemia — Modelado y Simulación | UADE</title>
   <link rel="stylesheet" href="css/styles.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
@@ -11,10 +11,10 @@
 
   <nav class="navbar">
     <div class="navbar-titulo">
-      <h1>Catástrofe zombi — Modelo Lotka-Volterra</h1>
+      <h1>Simulación de Pandemia — Modelo Lotka-Volterra</h1>
       <span>Trabajo Práctico Grupal · Modelado y Simulación · UADE</span>
     </div>
-    <span class="navbar-badge">Zombi</span>
+    <span class="navbar-badge">Pandemia</span>
   </nav>
 
   <main class="contenedor">
@@ -89,67 +89,14 @@
       <div class="card">
         <h2 class="card-titulo">
           <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-          Retrato de Fase — Espacio de Estados
-          <span class="card-subtitulo">Cuatro cuadrantes · Sanos = presa · Infectados = depredador</span>
+          Diagrama de Fase — Espacio de Estados
+          <span class="card-subtitulo">Azul → Rojo → Verde = dirección temporal (inicio → pico → final)</span>
         </h2>
-        <div class="fase-panel">
-          <div class="fase-controles">
-            <button id="fase-play" class="fase-btn" type="button" aria-label="Reproducir animación" title="Reproducir animación">
-              <span class="fase-btn-icon">▶</span>
-              <span id="fase-play-label">Reproducir</span>
-            </button>
-            <button id="fase-reset" class="fase-btn fase-btn-secundario" type="button" aria-label="Reiniciar animación" title="Reiniciar animación">
-              <span class="fase-btn-icon">↺</span>
-              <span>Reiniciar</span>
-            </button>
-            <label class="fase-control-rango">
-              <span>Día <strong id="fase-dia-label">0</strong></span>
-              <input id="fase-day" type="range" min="0" max="365" value="0" step="1">
-            </label>
-            <label class="fase-control-velocidad">
-              <span>Velocidad</span>
-              <select id="fase-speed" aria-label="Velocidad de animación">
-                <option value="0.6">0.6x</option>
-                <option value="1" selected>1x</option>
-                <option value="2">2x</option>
-                <option value="4">4x</option>
-              </select>
-            </label>
-          </div>
-          <div class="fase-estado-grid">
-            <div class="fase-estado-item">
-              <span class="fase-estado-label">Presa S(t)</span>
-              <strong id="fase-sanos-actual">-</strong>
-            </div>
-            <div class="fase-estado-item">
-              <span class="fase-estado-label">Depredador I(t)</span>
-              <strong id="fase-infectados-actual">-</strong>
-            </div>
-            <div class="fase-estado-item">
-              <span class="fase-estado-label">Régimen</span>
-              <strong id="fase-regimen-actual">Inicio</strong>
-            </div>
-            <div class="fase-estado-item">
-              <span class="fase-estado-label">Ciudad</span>
-              <strong id="fase-ciudad-actual">-</strong>
-            </div>
-          </div>
-        </div>
         <div class="grafico-wrapper grafico-fase-wrapper">
           <canvas id="grafico-fase"></canvas>
         </div>
         <!-- Interpretación automática debajo del diagrama -->
         <div id="fase-interpretacion" class="fase-interpretacion-contenedor"></div>
-      </div>
-
-      <!-- ── Marco teórico aplicado ── -->
-      <div class="card">
-        <h2 class="card-titulo">
-          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 19.5V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-1.5z"/><path d="M8 7h6M8 11h7M8 15h5"/></svg>
-          Marco Teórico Aplicado
-          <span id="teoria-ciudad-subtitulo" class="card-subtitulo"></span>
-        </h2>
-        <div id="teoria-contenedor" class="teoria-grid"></div>
       </div>
 
       <!-- ── Tabla comparativa ── -->
@@ -191,7 +138,7 @@
   </main>
 
   <footer class="footer">
-    Modelado y Simulación · UADE · TP Grupal — Catástrofe zombi con Modelo Lotka-Volterra
+    Modelado y Simulación · UADE · TP Grupal — Simulación de Pandemia con Modelo Lotka-Volterra
   </footer>
 
   <script src="js/loader.js"></script>
