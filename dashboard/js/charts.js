@@ -10,18 +10,6 @@ let graficoInfectados = null;
 let graficoSanos      = null;
 let graficoFase       = null;
 
-const faseAnimacion = {
-  diaMin: 0,
-  diaMax: 365,
-  diaActual: 0,
-  velocidad: 1,
-  reproduciendo: false,
-  rafId: null,
-  ultimoFrame: 0,
-  diasPorSegundo: 18,
-  ciudadesActivas: []
-};
-
 // ══════════════════════════════════════════════════════════════
 // UTILIDADES DE COLOR
 // ══════════════════════════════════════════════════════════════
@@ -97,186 +85,8 @@ const pluginLineaPico = {
 };
 
 // ══════════════════════════════════════════════════════════════
-// PLUGIN: diagrama de fase — trayectoria animada + etiquetas
+// PLUGIN: diagrama de fase — líneas con gradiente + etiquetas
 // ══════════════════════════════════════════════════════════════
-
-function getIndicePorDia(data, diaActual) {
-  let idx = 0;
-  for (let i = 0; i < data.length; i++) {
-    if (data[i].dia <= diaActual) idx = i;
-    else break;
-  }
-  return idx;
-}
-
-function dibujarSegmentosFase(ctx, xScale, yScale, data, ciudad, hastaIndice, estiloBase = false) {
-  if (data.length < 2) return;
-
-  let iPico = 0, maxI = 0;
-  data.forEach((p, i) => { if (p.y > maxI) { maxI = p.y; iPico = i; } });
-  const tPico = iPico / (data.length - 1);
-  const limite = Math.min(hastaIndice, data.length - 2);
-
-  for (let i = 0; i <= limite; i++) {
-    const t  = i / (data.length - 1);
-    const x1 = xScale.getPixelForValue(data[i].x);
-    const y1 = yScale.getPixelForValue(data[i].y);
-    const x2 = xScale.getPixelForValue(data[i + 1].x);
-    const y2 = yScale.getPixelForValue(data[i + 1].y);
-
-    ctx.beginPath();
-    ctx.moveTo(x1, y1);
-    ctx.lineTo(x2, y2);
-    ctx.strokeStyle = estiloBase ? 'rgba(44, 62, 80, 0.12)' : interpolarColorFase(t, tPico, ciudad);
-    ctx.lineWidth   = estiloBase ? 1.4 : 3;
-    ctx.lineJoin    = 'round';
-    ctx.lineCap     = 'round';
-    ctx.stroke();
-  }
-}
-
-function dibujarCampoVectorial(ctx, chart, ciudad) {
-  if (!ciudad?.params) return;
-
-  const xScale = chart.scales.x;
-  const yScale = chart.scales.y;
-  const { left, top, width, height } = chart.chartArea;
-  const p = ciudad.params;
-  const columnas = 12;
-  const filas = 8;
-  const largo = 13;
-
-  ctx.save();
-  ctx.strokeStyle = 'rgba(44, 62, 80, 0.18)';
-  ctx.fillStyle = 'rgba(44, 62, 80, 0.18)';
-  ctx.lineWidth = 1;
-
-  for (let ix = 1; ix < columnas; ix++) {
-    for (let iy = 1; iy < filas; iy++) {
-      const s = xScale.min + (xScale.max - xScale.min) * (ix / columnas);
-      const i = yScale.min + (yScale.max - yScale.min) * (iy / filas);
-      const dS = p.alpha.valor * s - p.beta.valor * s * i;
-      const dI = p.delta.valor * s * i - p.gamma.valor * i;
-
-      const px = xScale.getPixelForValue(s);
-      const py = yScale.getPixelForValue(i);
-      const px2 = xScale.getPixelForValue(s + dS);
-      const py2 = yScale.getPixelForValue(i + dI);
-      const ang = Math.atan2(py2 - py, px2 - px);
-
-      if (!Number.isFinite(ang)) continue;
-
-      const x1 = px - Math.cos(ang) * largo * 0.45;
-      const y1 = py - Math.sin(ang) * largo * 0.45;
-      const x2 = px + Math.cos(ang) * largo * 0.45;
-      const y2 = py + Math.sin(ang) * largo * 0.45;
-
-      if (x2 < left || x2 > left + width || y2 < top || y2 > top + height) continue;
-
-      ctx.beginPath();
-      ctx.moveTo(x1, y1);
-      ctx.lineTo(x2, y2);
-      ctx.stroke();
-
-      ctx.save();
-      ctx.translate(x2, y2);
-      ctx.rotate(ang);
-      ctx.beginPath();
-      ctx.moveTo(0, 0);
-      ctx.lineTo(-4, -2.5);
-      ctx.lineTo(-4, 2.5);
-      ctx.closePath();
-      ctx.fill();
-      ctx.restore();
-    }
-  }
-
-  ctx.restore();
-}
-
-function dibujarNulclinas(ctx, chart, ciudad) {
-  if (!ciudad?.params) return;
-
-  const xScale = chart.scales.x;
-  const yScale = chart.scales.y;
-  const { left, top, width, height } = chart.chartArea;
-  const sEq = ciudad.params.gamma.valor / ciudad.params.delta.valor;
-  const iEq = ciudad.params.alpha.valor / ciudad.params.beta.valor;
-  const xEq = xScale.getPixelForValue(sEq);
-  const yEq = yScale.getPixelForValue(iEq);
-
-  ctx.save();
-  ctx.setLineDash([7, 5]);
-  ctx.lineWidth = 1.4;
-  ctx.font = 'bold 10px Segoe UI, sans-serif';
-
-  if (xEq >= left && xEq <= left + width) {
-    ctx.strokeStyle = 'rgba(52, 152, 219, 0.62)';
-    ctx.beginPath();
-    ctx.moveTo(xEq, top);
-    ctx.lineTo(xEq, top + height);
-    ctx.stroke();
-
-    ctx.setLineDash([]);
-    ctx.fillStyle = 'rgba(255,255,255,0.9)';
-    ctx.beginPath();
-    ctx.roundRect(xEq + 7, top + 28, 76, 18, 4);
-    ctx.fill();
-    ctx.fillStyle = '#2c78a8';
-    ctx.fillText('dI/dt = 0', xEq + 12, top + 41);
-    ctx.setLineDash([7, 5]);
-  }
-
-  if (yEq >= top && yEq <= top + height) {
-    ctx.strokeStyle = 'rgba(231, 76, 60, 0.62)';
-    ctx.beginPath();
-    ctx.moveTo(left, yEq);
-    ctx.lineTo(left + width, yEq);
-    ctx.stroke();
-
-    ctx.setLineDash([]);
-    ctx.fillStyle = 'rgba(255,255,255,0.9)';
-    ctx.beginPath();
-    ctx.roundRect(left + 12, yEq - 25, 76, 18, 4);
-    ctx.fill();
-    ctx.fillStyle = '#b83f33';
-    ctx.fillText('dS/dt = 0', left + 17, yEq - 12);
-  }
-
-  ctx.restore();
-}
-
-function dibujarEjesCartesianas(ctx, chart) {
-  const xScale = chart.scales.x;
-  const yScale = chart.scales.y;
-  const { left, top, width, height } = chart.chartArea;
-  const x0 = xScale.getPixelForValue(0);
-  const y0 = yScale.getPixelForValue(0);
-
-  ctx.save();
-  ctx.lineWidth = 1.8;
-  ctx.strokeStyle = 'rgba(44, 62, 80, 0.46)';
-  ctx.fillStyle = 'rgba(44, 62, 80, 0.72)';
-  ctx.font = 'bold 10px Segoe UI, sans-serif';
-
-  if (x0 >= left && x0 <= left + width) {
-    ctx.beginPath();
-    ctx.moveTo(x0, top);
-    ctx.lineTo(x0, top + height);
-    ctx.stroke();
-    ctx.fillText('S = 0', x0 + 8, top + height - 10);
-  }
-
-  if (y0 >= top && y0 <= top + height) {
-    ctx.beginPath();
-    ctx.moveTo(left, y0);
-    ctx.lineTo(left + width, y0);
-    ctx.stroke();
-    ctx.fillText('I = 0', left + 10, y0 - 8);
-  }
-
-  ctx.restore();
-}
 
 const pluginFase = {
   id: 'fase',
@@ -295,26 +105,32 @@ const pluginFase = {
     ctx.rect(left, top, width, height);
     ctx.clip();
 
-    dibujarEjesCartesianas(ctx, chart);
-
-    const primeraTrayectoria = chart.data.datasets.find(ds => ds._esTrayectoria);
-    if (primeraTrayectoria) {
-      dibujarCampoVectorial(ctx, chart, primeraTrayectoria._ciudad);
-      dibujarNulclinas(ctx, chart, primeraTrayectoria._ciudad);
-    }
-
-    const opts = chart.options.plugins?.fase || {};
-    const diaActual = opts.diaActual ?? Infinity;
-
     chart.data.datasets.forEach(ds => {
       if (!ds._esTrayectoria) return;
       const data   = ds.data;
       if (data.length < 2) return;
       const ciudad = ds._ciudad;
-      const indiceActual = opts.animado ? getIndicePorDia(data, diaActual) : data.length - 1;
 
-      dibujarSegmentosFase(ctx, xScale, yScale, data, ciudad, data.length - 2, true);
-      dibujarSegmentosFase(ctx, xScale, yScale, data, ciudad, indiceActual);
+      // Índice relativo del pico
+      let iPico = 0, maxI = 0;
+      data.forEach((p, i) => { if (p.y > maxI) { maxI = p.y; iPico = i; } });
+      const tPico = iPico / (data.length - 1);
+
+      for (let i = 0; i < data.length - 1; i++) {
+        const t  = i / (data.length - 1);
+        const x1 = xScale.getPixelForValue(data[i].x);
+        const y1 = yScale.getPixelForValue(data[i].y);
+        const x2 = xScale.getPixelForValue(data[i + 1].x);
+        const y2 = yScale.getPixelForValue(data[i + 1].y);
+
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.strokeStyle = interpolarColorFase(t, tPico, ciudad);
+        ctx.lineWidth   = 2.5;
+        ctx.lineJoin    = 'round';
+        ctx.stroke();
+      }
     });
 
     ctx.restore();
@@ -361,9 +177,6 @@ const pluginFase = {
     ctx.rect(left, top, width, height);
     ctx.clip();
 
-    const opts = chart.options.plugins?.fase || {};
-    const diaActual = opts.diaActual ?? Infinity;
-
     chart.data.datasets.forEach(ds => {
       if (!ds._esTrayectoria) return;
       const data = ds.data;
@@ -372,11 +185,10 @@ const pluginFase = {
       // lookahead: 3% de la longitud del CSV — da dirección clara sin saltar demasiado
       const lookahead = Math.max(2, Math.floor(data.length * 0.03));
 
-      [0.25, 0.50, 0.75].forEach(pct => {
+      [0.20, 0.40, 0.60, 0.80].forEach(pct => {
         const i = Math.floor(pct * (data.length - 1));
         const j = Math.min(i + lookahead, data.length - 1);
         if (i === j) return;
-        if (opts.animado && data[i].dia > diaActual) return;
 
         const x1 = xScale.getPixelForValue(data[i].x);
         const y1 = yScale.getPixelForValue(data[i].y);
@@ -417,50 +229,6 @@ const pluginFase = {
 
         ctx.restore();
       });
-    });
-
-    ctx.restore();
-
-    // Punto móvil del día actual.
-    ctx.save();
-    ctx.beginPath();
-    ctx.rect(left, top, width, height);
-    ctx.clip();
-
-    chart.data.datasets.forEach(ds => {
-      if (!ds._esTrayectoria) return;
-      const data = ds.data;
-      if (!data.length) return;
-      const idx = getIndicePorDia(data, diaActual);
-      const p = data[idx];
-      const ciudad = ds._ciudad;
-      const px = xScale.getPixelForValue(p.x);
-      const py = yScale.getPixelForValue(p.y);
-
-      if (px < left || px > left + width || py < top || py > top + height) return;
-
-      ctx.beginPath();
-      ctx.arc(px, py, 14, 0, Math.PI * 2);
-      ctx.fillStyle = ciudad.color + '24';
-      ctx.fill();
-
-      ctx.beginPath();
-      ctx.arc(px, py, 6, 0, Math.PI * 2);
-      ctx.fillStyle = '#fff';
-      ctx.fill();
-      ctx.lineWidth = 3;
-      ctx.strokeStyle = ciudad.color;
-      ctx.stroke();
-
-      const etiqueta = `Día ${p.dia}`;
-      ctx.font = 'bold 11px Segoe UI, sans-serif';
-      const tw = ctx.measureText(etiqueta).width;
-      ctx.fillStyle = 'rgba(255,255,255,0.92)';
-      ctx.beginPath();
-      ctx.roundRect(px + 11, py + 9, tw + 12, 19, 4);
-      ctx.fill();
-      ctx.fillStyle = ciudad.color;
-      ctx.fillText(etiqueta, px + 17, py + 22);
     });
 
     ctx.restore();
@@ -628,9 +396,9 @@ function actualizarGraficos(ciudadesActivas, diaMin, diaMax) {
 // ══════════════════════════════════════════════════════════════
 
 /**
- * Calcula el rango para el retrato de fase con cuatro cuadrantes.
- * Los valores negativos son referencia matemática del plano de estados:
- * las poblaciones reales siguen viviendo en el primer cuadrante.
+ * Calcula el rango para los ejes del diagrama de fase a partir de los datos reales.
+ * Eje X: de 0 hasta el máximo de sanos registrado (no el valor inicial, sino el real).
+ * Eje Y: de 0 hasta el máximo de infectados registrado.
  */
 function calcularRangoFase(ciudadesActivas, diaMin, diaMax) {
   let maxSanos = 0, maxInfectados = 0;
@@ -642,13 +410,11 @@ function calcularRangoFase(ciudadesActivas, diaMin, diaMax) {
         if (p.infectados > maxInfectados) maxInfectados = p.infectados;
       });
   });
-  const xAbs = Math.max(maxSanos, 2000000);
-  const yAbs = Math.max(maxInfectados, 3500000);
   return {
-    xMin: -xAbs * 1.08,
-    xMax:  xAbs * 1.08,
-    yMin: -yAbs * 1.08,
-    yMax:  yAbs * 1.08
+    xMin: 0,
+    xMax: maxSanos      * 1.05 || 2000000,
+    yMin: 0,
+    yMax: maxInfectados * 1.05 || 3500000
   };
 }
 
@@ -720,184 +486,15 @@ function construirDatasetsFase(ciudadesActivas, diaMin, diaMax) {
   return datasets;
 }
 
-function getDatosFasePrincipal() {
-  const ciudad = faseAnimacion.ciudadesActivas[0];
-  if (!ciudad) return null;
-
-  const datos = (datosCiudades[ciudad.id] || [])
-    .filter(p => p.dia >= faseAnimacion.diaMin && p.dia <= faseAnimacion.diaMax)
-    .sort((a, b) => a.dia - b.dia);
-
-  if (!datos.length) return null;
-  const idx = getIndicePorDia(datos.map(p => ({ dia: p.dia })), faseAnimacion.diaActual);
-  return { ciudad, punto: datos[idx], datos };
-}
-
-function formatearHabitantes(valor) {
-  return Math.round(valor).toLocaleString('es-AR');
-}
-
-function getRegimenFase(datos, punto) {
-  let pico = datos[0];
-  datos.forEach(p => { if (p.infectados > pico.infectados) pico = p; });
-
-  if (punto.dia < pico.dia * 0.7) return 'Expansión';
-  if (punto.dia <= pico.dia) return 'Cerca del pico';
-  if (punto.infectados < pico.infectados * 0.05) return 'Extinción';
-  return 'Retroceso';
-}
-
-function actualizarPanelFase() {
-  const diaLabel = document.getElementById('fase-dia-label');
-  const slider = document.getElementById('fase-day');
-  const playLabel = document.getElementById('fase-play-label');
-  const playBtn = document.getElementById('fase-play');
-  const datosPanel = getDatosFasePrincipal();
-
-  if (diaLabel) diaLabel.textContent = Math.round(faseAnimacion.diaActual);
-  if (slider && document.activeElement !== slider) slider.value = Math.round(faseAnimacion.diaActual);
-  if (playLabel) playLabel.textContent = faseAnimacion.reproduciendo ? 'Pausar' : 'Reproducir';
-  if (playBtn) {
-    playBtn.classList.toggle('reproduciendo', faseAnimacion.reproduciendo);
-    playBtn.querySelector('.fase-btn-icon').textContent = faseAnimacion.reproduciendo ? '⏸' : '▶';
-  }
-
-  const ciudadEl = document.getElementById('fase-ciudad-actual');
-  const sanosEl = document.getElementById('fase-sanos-actual');
-  const infectadosEl = document.getElementById('fase-infectados-actual');
-  const regimenEl = document.getElementById('fase-regimen-actual');
-
-  if (!datosPanel) {
-    if (ciudadEl) ciudadEl.textContent = '-';
-    if (sanosEl) sanosEl.textContent = '-';
-    if (infectadosEl) infectadosEl.textContent = '-';
-    if (regimenEl) regimenEl.textContent = 'Sin datos';
-    return;
-  }
-
-  const { ciudad, punto, datos } = datosPanel;
-  if (ciudadEl) ciudadEl.textContent = ciudad.nombre;
-  if (sanosEl) sanosEl.textContent = formatearHabitantes(punto.sanos);
-  if (infectadosEl) infectadosEl.textContent = formatearHabitantes(punto.infectados);
-  if (regimenEl) regimenEl.textContent = getRegimenFase(datos, punto);
-}
-
-function setDiaFase(dia, actualizarGrafico = true) {
-  faseAnimacion.diaActual = Math.max(
-    faseAnimacion.diaMin,
-    Math.min(faseAnimacion.diaMax, Number(dia) || faseAnimacion.diaMin)
-  );
-
-  if (graficoFase && actualizarGrafico) {
-    graficoFase.options.plugins.fase.diaActual = faseAnimacion.diaActual;
-    graficoFase.update('none');
-  }
-
-  actualizarPanelFase();
-}
-
-function detenerAnimacionFase() {
-  faseAnimacion.reproduciendo = false;
-  if (faseAnimacion.rafId) cancelAnimationFrame(faseAnimacion.rafId);
-  faseAnimacion.rafId = null;
-  faseAnimacion.ultimoFrame = 0;
-  actualizarPanelFase();
-}
-
-function avanzarAnimacionFase(timestamp) {
-  if (!faseAnimacion.reproduciendo) return;
-  if (!faseAnimacion.ultimoFrame) faseAnimacion.ultimoFrame = timestamp;
-
-  const deltaSegundos = (timestamp - faseAnimacion.ultimoFrame) / 1000;
-  faseAnimacion.ultimoFrame = timestamp;
-
-  const avance = deltaSegundos * faseAnimacion.diasPorSegundo * faseAnimacion.velocidad;
-  const siguienteDia = faseAnimacion.diaActual + avance;
-
-  if (siguienteDia >= faseAnimacion.diaMax) {
-    setDiaFase(faseAnimacion.diaMax);
-    detenerAnimacionFase();
-    return;
-  }
-
-  setDiaFase(siguienteDia);
-  faseAnimacion.rafId = requestAnimationFrame(avanzarAnimacionFase);
-}
-
-function iniciarAnimacionFase() {
-  if (faseAnimacion.reproduciendo) return;
-  if (faseAnimacion.diaActual >= faseAnimacion.diaMax) setDiaFase(faseAnimacion.diaMin);
-  faseAnimacion.reproduciendo = true;
-  faseAnimacion.ultimoFrame = 0;
-  actualizarPanelFase();
-  faseAnimacion.rafId = requestAnimationFrame(avanzarAnimacionFase);
-}
-
-function toggleAnimacionFase() {
-  if (faseAnimacion.reproduciendo) detenerAnimacionFase();
-  else iniciarAnimacionFase();
-}
-
-function reiniciarAnimacionFase() {
-  detenerAnimacionFase();
-  setDiaFase(faseAnimacion.diaMin);
-}
-
-function inicializarControlesFase() {
-  const play = document.getElementById('fase-play');
-  const reset = document.getElementById('fase-reset');
-  const slider = document.getElementById('fase-day');
-  const velocidad = document.getElementById('fase-speed');
-
-  if (play) play.addEventListener('click', toggleAnimacionFase);
-  if (reset) reset.addEventListener('click', reiniciarAnimacionFase);
-  if (slider) {
-    slider.addEventListener('input', e => {
-      detenerAnimacionFase();
-      setDiaFase(parseInt(e.target.value, 10));
-    });
-  }
-  if (velocidad) {
-    velocidad.addEventListener('change', e => {
-      faseAnimacion.velocidad = parseFloat(e.target.value) || 1;
-    });
-  }
-}
-
-function configurarAnimacionFase(ciudadesActivas, diaMin, diaMax) {
-  faseAnimacion.ciudadesActivas = ciudadesActivas;
-  faseAnimacion.diaMin = diaMin;
-  faseAnimacion.diaMax = diaMax;
-
-  const slider = document.getElementById('fase-day');
-  if (slider) {
-    slider.min = diaMin;
-    slider.max = diaMax;
-  }
-
-  if (faseAnimacion.diaActual < diaMin || faseAnimacion.diaActual > diaMax) {
-    faseAnimacion.diaActual = diaMin;
-  }
-
-  if (!ciudadesActivas.length) detenerAnimacionFase();
-  setDiaFase(faseAnimacion.diaActual, false);
-}
-
 function opcionesFase(rango) {
-  const tickCb = v => {
-    const abs = Math.abs(v);
-    const sign = v < 0 ? '-' : '';
-    if (abs >= 1e6) return sign + (abs/1e6).toFixed(1)+'M';
-    if (abs >= 1e3) return sign + (abs/1e3).toFixed(0)+'K';
-    return v;
-  };
+  const tickCb = v => v >= 1e6 ? (v/1e6).toFixed(1)+'M' : v >= 1e3 ? (v/1e3).toFixed(0)+'K' : v;
   return {
     responsive: true, maintainAspectRatio: false, parsing: false,
     interaction: { mode: 'nearest', intersect: false, axis: 'xy' },
     plugins: {
       title: {
         display: true,
-        text: 'Retrato de fase S(t) vs I(t)',
+        text: 'Diagrama de Fase — Espacio de Estados Lotka-Volterra',
         font: { size: 15, weight: 'bold' }, color: '#2c3e50', padding: { bottom: 14 }
       },
       legend: {
@@ -921,24 +518,25 @@ function opcionesFase(rango) {
           }
         }
       },
-      fase: { activo: true, animado: true, diaActual: faseAnimacion.diaActual }
+      fase: { activo: true }
     },
     scales: {
       x: {
         type: 'linear',
+        // El eje X SIEMPRE empieza en 0 y llega al máximo de sanos del CSV
         min: rango.xMin,
         max: rango.xMax,
-        title: { display: true, text: 'S(t): población sana / presa — plano extendido', font: { size: 11 }, color: '#95a5a6' },
-        grid:  { color: ctx => ctx.tick.value === 0 ? 'rgba(44,62,80,0.22)' : 'rgba(0,0,0,0.045)' },
-        ticks: { maxTicksLimit: 9, callback: tickCb }
+        title: { display: true, text: 'Población sana → (valor decrece durante el brote)', font: { size: 11 }, color: '#95a5a6' },
+        grid:  { color: 'rgba(0,0,0,0.04)' },
+        ticks: { maxTicksLimit: 8, callback: tickCb }
       },
       y: {
         type: 'linear',
         min: rango.yMin,
         max: rango.yMax,
-        title: { display: true, text: 'I(t): infectados / depredador zombi — plano extendido', font: { size: 11 }, color: '#95a5a6' },
-        grid:  { color: ctx => ctx.tick.value === 0 ? 'rgba(44,62,80,0.22)' : 'rgba(0,0,0,0.045)' },
-        ticks: { maxTicksLimit: 9, callback: tickCb }
+        title: { display: true, text: 'Población infectada → (valor crece durante el brote)', font: { size: 11 }, color: '#95a5a6' },
+        grid:  { color: 'rgba(0,0,0,0.04)' },
+        ticks: { maxTicksLimit: 8, callback: tickCb }
       }
     }
   };
@@ -949,8 +547,6 @@ function inicializarGraficoFase(ciudadesActivas, diaMin, diaMax) {
   if (!canvas) return;
 
   const rango = calcularRangoFase(ciudadesActivas, diaMin, diaMax);
-  configurarAnimacionFase(ciudadesActivas, diaMin, diaMax);
-  inicializarControlesFase();
 
   graficoFase = new Chart(canvas.getContext('2d'), {
     type: 'scatter',
@@ -962,13 +558,11 @@ function inicializarGraficoFase(ciudadesActivas, diaMin, diaMax) {
 function actualizarGraficoFase(ciudadesActivas, diaMin, diaMax) {
   if (!graficoFase) return;
   const rango = calcularRangoFase(ciudadesActivas, diaMin, diaMax);
-  configurarAnimacionFase(ciudadesActivas, diaMin, diaMax);
   graficoFase.data.datasets = construirDatasetsFase(ciudadesActivas, diaMin, diaMax);
   // Actualizar rangos de ejes con los nuevos datos filtrados
   graficoFase.options.scales.x.min = rango.xMin;
   graficoFase.options.scales.x.max = rango.xMax;
   graficoFase.options.scales.y.min = rango.yMin;
   graficoFase.options.scales.y.max = rango.yMax;
-  graficoFase.options.plugins.fase.diaActual = faseAnimacion.diaActual;
   graficoFase.update();
 }
