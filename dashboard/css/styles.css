@@ -203,7 +203,128 @@ body {
 }
 @media (max-width: 860px) { .graficos-grid { grid-template-columns: 1fr; } }
 .grafico-wrapper { height: 370px; position: relative; }
-.grafico-fase-wrapper { height: 460px; }
+.grafico-fase-wrapper { height: 520px; }
+
+/* ── Retrato de fase animado ── */
+.fase-panel {
+  display: grid;
+  grid-template-columns: minmax(360px, 1.35fr) minmax(320px, 1fr);
+  gap: 1rem;
+  align-items: stretch;
+  margin-bottom: 1rem;
+}
+
+.fase-controles {
+  display: grid;
+  grid-template-columns: auto auto minmax(180px, 1fr) auto;
+  gap: 0.7rem;
+  align-items: center;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  background: #f7f9fb;
+}
+
+.fase-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 34px;
+  padding: 0 0.85rem;
+  border: 1px solid var(--primario);
+  border-radius: 6px;
+  background: var(--primario);
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.12s, box-shadow 0.12s, background 0.12s;
+}
+.fase-btn:hover { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(44,62,80,0.18); }
+.fase-btn.reproduciendo { background: var(--acento); border-color: var(--acento); }
+.fase-btn-secundario { background: #fff; color: var(--primario); border-color: var(--borde); }
+.fase-btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  font-size: 0.8rem;
+}
+
+.fase-control-rango,
+.fase-control-velocidad {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--subtexto);
+}
+.fase-control-rango { flex: 1; }
+.fase-control-rango input { width: 100%; accent-color: var(--acento); }
+.fase-control-rango strong { color: var(--primario); font-variant-numeric: tabular-nums; }
+.fase-control-velocidad select {
+  height: 32px;
+  border: 1px solid var(--borde);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--primario);
+  font-weight: 700;
+  padding: 0 0.45rem;
+}
+
+.fase-estado-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.fase-estado-item {
+  min-width: 0;
+  padding: 0.85rem 0.9rem;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  background: #f7f9fb;
+}
+
+.fase-estado-label {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: var(--subtexto);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.35px;
+  text-transform: uppercase;
+}
+
+.fase-estado-item strong {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--primario);
+  font-size: 1rem;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 1080px) {
+  .fase-panel { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 760px) {
+  .fase-controles { grid-template-columns: 1fr 1fr; }
+  .fase-control-rango { grid-column: 1 / -1; }
+  .fase-estado-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grafico-fase-wrapper { height: 430px; }
+}
+
+@media (max-width: 480px) {
+  .fase-controles { grid-template-columns: 1fr; }
+  .fase-estado-grid { grid-template-columns: 1fr; }
+  .fase-control-velocidad { justify-content: space-between; }
+}
 
 /* ── Diagrama de fase — interpretación ── */
 .fase-interpretacion-contenedor { margin-top: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem; }
@@ -229,6 +350,80 @@ body {
 }
 .fase-interp-nota strong { color: var(--primario); }
 .fase-interp-nota small  { color: var(--subtexto); font-style: italic; }
+
+/* ── Marco teórico aplicado ── */
+.teoria-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.teoria-card {
+  min-width: 0;
+  padding: 1rem 1.05rem;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  background: #f7f9fb;
+}
+
+.teoria-card-ancha { grid-column: span 2; }
+
+.teoria-kicker {
+  margin-bottom: 0.5rem;
+  color: var(--subtexto);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.35px;
+  text-transform: uppercase;
+}
+
+.teoria-card h3 {
+  margin-bottom: 0.45rem;
+  color: var(--primario);
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.teoria-card p {
+  color: var(--subtexto);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+.teoria-formula {
+  display: grid;
+  gap: 0.35rem;
+  margin-bottom: 0.65rem;
+  color: var(--primario);
+  font-family: 'Courier New', monospace;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.matriz-jacobiana {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(74px, 1fr));
+  gap: 0.35rem;
+  max-width: 190px;
+  margin-bottom: 0.7rem;
+  padding: 0.55rem;
+  border-left: 2px solid var(--primario);
+  border-right: 2px solid var(--primario);
+  color: var(--primario);
+  font-family: 'Courier New', monospace;
+  font-size: 0.86rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+@media (max-width: 980px) {
+  .teoria-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 640px) {
+  .teoria-grid { grid-template-columns: 1fr; }
+  .teoria-card-ancha { grid-column: auto; }
+}
 
 /* ── Tabla comparativa ── */
 .tabla-scroll { overflow-x: auto; }
