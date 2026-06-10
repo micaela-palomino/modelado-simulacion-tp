@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulación de Pandemia — Modelado y Simulación | UADE</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="navbar-titulo">
+      <h1>Simulación de Pandemia — Modelo Lotka-Volterra</h1>
+      <span>Trabajo Práctico Grupal · Modelado y Simulación · UADE</span>
+    </div>
+    <span class="navbar-badge">Pandemia</span>
+  </nav>
+
+  <main class="contenedor">
+
+    <div id="cargando">
+      <div class="spinner"></div>
+      <p>Cargando datos de ciudades...</p>
+    </div>
+    <div id="error-mensaje"></div>
+
+    <div id="dashboard-contenido">
+
+      <!-- ── Filtros ── -->
+      <div class="card">
+        <h2 class="card-titulo">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+          Filtros
+        </h2>
+        <div class="filtros-grid">
+
+          <div>
+            <p class="filtro-label">CIUDADES</p>
+            <div id="filtros-ciudades" class="filtros-ciudades-lista"></div>
+          </div>
+
+          <!-- Dual slider de rango de días -->
+          <div>
+            <p class="filtro-label">RANGO DE DÍAS</p>
+            <div class="dual-slider-label">
+              Días: <strong id="label-dia-min">0</strong> — <strong id="label-dia-max">365</strong>
+            </div>
+            <div class="dual-slider">
+              <div class="dual-track">
+                <div class="dual-fill" id="dual-fill"></div>
+              </div>
+              <input type="range" class="dual-thumb" id="slider-dia-min" min="0" max="365" value="0" step="1">
+              <input type="range" class="dual-thumb" id="slider-dia-max" min="0" max="365" value="365" step="1">
+            </div>
+            <small class="filtro-hint">Arrastrá los dos puntos para definir el rango</small>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── Métricas del modelo ── -->
+      <div class="card">
+        <h2 class="card-titulo">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          Métricas del Modelo
+          <span id="metricas-subtitulo" class="card-subtitulo"></span>
+        </h2>
+        <!-- Tabs de ciudad (oculto con 1 sola ciudad) -->
+        <div id="metricas-tabs" class="metricas-tabs" style="display:none"></div>
+        <div id="metricas-contenedor" class="metricas-grid"></div>
+      </div>
+
+      <!-- ── Gráficos infectados / sanos ── -->
+      <div class="graficos-grid">
+        <div class="card">
+          <div class="grafico-wrapper">
+            <canvas id="grafico-infectados"></canvas>
+          </div>
+        </div>
+        <div class="card">
+          <div class="grafico-wrapper">
+            <canvas id="grafico-sanos"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Diagrama de Fase ── -->
+      <div class="card">
+        <h2 class="card-titulo">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          Diagrama de Fase — Espacio de Estados
+          <span class="card-subtitulo">Azul → Rojo → Verde = dirección temporal (inicio → pico → final)</span>
+        </h2>
+        <div class="grafico-wrapper grafico-fase-wrapper">
+          <canvas id="grafico-fase"></canvas>
+        </div>
+        <!-- Interpretación automática debajo del diagrama -->
+        <div id="fase-interpretacion" class="fase-interpretacion-contenedor"></div>
+      </div>
+
+      <!-- ── Tabla comparativa ── -->
+      <div class="card">
+        <h2 class="card-titulo">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg>
+          Comparativa por Ciudad
+          <span class="card-subtitulo">Click en columna para ordenar</span>
+        </h2>
+        <div class="tabla-scroll">
+          <table class="tabla-comparativa">
+            <thead id="tabla-thead"></thead>
+            <tbody id="tabla-ciudades-body">
+              <tr><td colspan="7" class="sin-datos">Cargando...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── Panel de parámetros ── -->
+      <div class="card">
+        <h2 class="card-titulo">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+          Parámetros del Modelo por Ciudad
+        </h2>
+        <div id="parametros-contenedor"></div>
+      </div>
+
+      <!-- ── Conclusión final ── -->
+      <div class="card">
+        <h2 class="card-titulo">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+          Conclusión Final
+        </h2>
+        <div id="conclusion-final"></div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    Modelado y Simulación · UADE · TP Grupal — Simulación de Pandemia con Modelo Lotka-Volterra
+  </footer>
+
+  <script src="js/loader.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/main.js"></script>
+
+</body>
+</html>

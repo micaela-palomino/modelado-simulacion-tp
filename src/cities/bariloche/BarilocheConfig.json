@@ -1,0 +1,29 @@
+{
+  "ciudad": "Bariloche",
+  "tipo": "Turística / Patagónica",
+  "provincia": "Río Negro",
+  "poblacion_inicial": 133000,
+
+  "parametros": {
+    "alpha": 0.03,
+    "beta": 0.00000085,
+    "delta": 0.00000070,
+    "gamma": 0.040
+  },
+
+  "condiciones_iniciales": {
+    "poblacion_sana": 132950,
+    "poblacion_infectada": 50
+  },
+
+  "simulacion": {
+    "dias": 365
+  },
+
+  "justificacion": {
+    "alpha": "Tasa de crecimiento moderada. Población estable de ~133.000 habitantes con crecimiento sostenido por migración de personas atraídas por el turismo y la actividad regional.",
+    "beta": "Tasa de contagio alta. La mezcla de población local con entre 500.000 y 1.000.000 de turistas anuales (concentrados en temporadas de ski y verano) genera contacto intenso entre sanos e infectados, especialmente en hoteles, remontadores y transporte turístico.",
+    "delta": "Propagación viral media-alta. Espacios cerrados y concurridos durante temporada alta (refugios de montaña, teleféricos, alojamientos) crean focos de transmisión eficiente. Menor hacinamiento que zonas urbanas del AMBA, pero altamente concentrado.",
+    "gamma": "Recuperación baja. El Hospital Zonal Ramón Carrillo es el único hospital público de referencia para una región de ~150.000 km². Capacidad limitada para manejar picos de demanda. El aislamiento geográfico (1.650 km de Buenos Aires) retrasa derivaciones y refuerzos sanitarios."
+  }
+}

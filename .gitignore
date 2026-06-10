@@ -1,0 +1,35 @@
+# Compilados Java
+out/
+bin/
+*.class
+*.jar
+
+# VS Code (mantener launch.json pero ignorar settings personales)
+.vscode/*
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IntelliJ / Eclipse
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+
+# Logs
+*.log
+
+# CSVs generados (se regeneran con Main.java)
+# Descomenta si no querés versionar los resultados:
+# resources/*/results.csv
+# dashboard/data/*.csv
