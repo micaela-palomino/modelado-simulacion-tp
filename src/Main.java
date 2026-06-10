@@ -34,11 +34,9 @@ public class Main {
         BarilocheCity bariloche = new BarilocheCity();
         bariloche.ejecutarYExportar();
 
-        // --- Agregar más ciudades aquí ---
-        // Ejemplo para cuando otro grupo agregue su ciudad:
-        //
-        // OtraCiudadCity otraCiudad = new OtraCiudadCity();
-        // otraCiudad.ejecutarYExportar();
+        // --- Simulación: Mar del Plata (Grupo 11) ---
+        MarDelPlataCity marDelPlata = new MarDelPlataCity();
+        marDelPlata.ejecutarYExportar();
 
         System.out.println("==========================================================");
         System.out.println("Simulaciones completadas. Abrí dashboard/index.html");
