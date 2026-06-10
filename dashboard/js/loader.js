@@ -16,11 +16,28 @@ const CIUDADES = [
     colorRecuperados: '#27ae60',  // recuperados
     poblacionTotal: 1750000,
     params: {
-      alpha: { valor: 0.03,        label: 'α — Crecimiento sano',     desc: 'Ciudad joven con alta natalidad, pero alta exposición y movilidad limitan la recuperación natural de la población.' },
-      beta:  { valor: 0.00000012,  label: 'β — Tasa de contagio',     desc: 'Alta densidad (~2.800 hab/km²) + transporte masivo (trenes Roca, Belgrano Sur, cientos de líneas de colectivos) = contacto permanente entre sanos e infectados.' },
-      delta: { valor: 0.00000010,  label: 'δ — Propagación viral',    desc: 'Hacinamiento residencial y mala ventilación en viviendas precarias y transporte público potencian la eficiencia del virus.' },
-      gamma: { valor: 0.045,       label: 'γ — Recuperación',         desc: 'Solo ~3 hospitales públicos principales para 1.75M de habitantes. Sin alta complejidad propia; depende del sistema sanitario del AMBA.' },
-      sanoInicial:      1749900,
+      alpha: { valor: 0.03, label: 'α — Crecimiento sano', desc: 'Ciudad joven con alta natalidad, pero alta exposición y movilidad limitan la recuperación natural de la población.' },
+      beta: { valor: 0.00000012, label: 'β — Tasa de contagio', desc: 'Alta densidad (~2.800 hab/km²) + transporte masivo (trenes Roca, Belgrano Sur, cientos de líneas de colectivos) = contacto permanente entre sanos e infectados.' },
+      delta: { valor: 0.00000010, label: 'δ — Propagación viral', desc: 'Hacinamiento residencial y mala ventilación en viviendas precarias y transporte público potencian la eficiencia del virus.' },
+      gamma: { valor: 0.045, label: 'γ — Recuperación', desc: 'Solo ~3 hospitales públicos principales para 1.75M de habitantes. Sin alta complejidad propia; depende del sistema sanitario del AMBA.' },
+      sanoInicial: 1749900,
+      infectadoInicial: 100
+    }
+  },
+  {
+    id: 'laplata',
+    nombre: 'La Plata',
+    tipo: 'Capital provincial / Ciudad intermedia',
+    color: '#9b59b6',             // infectados
+    colorSanos: '#1abc9c',        // sanos
+    colorRecuperados: '#2ecc71',  // recuperados
+    poblacionTotal: 800000,
+    params: {
+      alpha: { valor: 0.025, label: 'α — Crecimiento sano', desc: 'Tasa de crecimiento moderada. Ciudad universitaria con población estable y flujo de estudiantes/trabajadores que suaviza el crecimiento natural y la migración neta.' },
+      beta: { valor: 0.000000225, label: 'β — Tasa de contagio', desc: 'Contagio moderado. Barrios densos, universidades y transporte público frecuente generan contactos cercanos, atenuados por zonas residenciales menos saturadas y espacios abiertos.' },
+      delta: { valor: 0.0000001875, label: 'δ — Propagación viral', desc: 'Propagación moderada. Concentración en facultades, oficinas públicas y transporte interurbano, limitada por parques y diagonales amplias. R0 ≈ 2.5.' },
+      gamma: { valor: 0.06, label: 'γ — Recuperación', desc: 'Recuperación relativamente alta. Hospitales de referencia, clínicas privadas y presencia de facultades de ciencias de la salud mejoran el acceso a tratamiento.' },
+      sanoInicial: 799900,
       infectadoInicial: 100
     }
   },
@@ -29,9 +46,9 @@ const CIUDADES = [
   //   id: 'bariloche',
   //   nombre: 'Bariloche',
   //   tipo: 'Turística',
-  //   color: '#9b59b6',
+  //   color: '#f39c12',
   //   colorSanos: '#8e44ad',
-  //   colorRecuperados: '#1abc9c',
+  //   colorRecuperados: '#16a085',
   //   poblacionTotal: 130000,
   //   params: { alpha: {...}, beta: {...}, delta: {...}, gamma: {...}, sanoInicial: 129900, infectadoInicial: 100 }
   // },
@@ -52,8 +69,8 @@ function parsearCSV(texto, poblacionTotal) {
     const partes = lineas[i].split(',');
     if (partes.length < 3) continue;
 
-    const sanos       = parseFloat(partes[1]);
-    const infectados  = parseFloat(partes[2]);
+    const sanos = parseFloat(partes[1]);
+    const infectados = parseFloat(partes[2]);
     const recuperados = Math.max(0, poblacionTotal - sanos - infectados);
 
     datos.push({
@@ -96,7 +113,7 @@ function getCiudadesDisponibles() {
  */
 function calcularEstadisticas(idCiudad) {
   const ciudad = CIUDADES.find(c => c.id === idCiudad);
-  const datos  = datosCiudades[idCiudad];
+  const datos = datosCiudades[idCiudad];
   if (!datos || datos.length === 0 || !ciudad) return null;
 
   // Pico de infectados
@@ -105,7 +122,7 @@ function calcularEstadisticas(idCiudad) {
   for (const p of datos) {
     if (p.infectados > picoInfectados) {
       picoInfectados = p.infectados;
-      diaPico        = p.dia;
+      diaPico = p.dia;
     }
   }
 
@@ -122,7 +139,7 @@ function calcularEstadisticas(idCiudad) {
   const porcentajeAfectado = (picoInfectados / ciudad.poblacionTotal) * 100;
 
   return {
-    picoInfectados:    Math.round(picoInfectados),
+    picoInfectados: Math.round(picoInfectados),
     diaPico,
     duracionBrote,
     porcentajeAfectado
@@ -134,17 +151,17 @@ function calcularEstadisticas(idCiudad) {
  */
 function calcularMetricas(idCiudad) {
   const ciudad = CIUDADES.find(c => c.id === idCiudad);
-  const datos  = datosCiudades[idCiudad];
+  const datos = datosCiudades[idCiudad];
   if (!datos || !ciudad) return null;
 
-  const p     = ciudad.params;
+  const p = ciudad.params;
   const stats = calcularEstadisticas(idCiudad);
 
   // R0 estimado: número reproductivo básico (aproximación para Lotka-Volterra)
   const R0 = (p.beta.valor * p.sanoInicial) / p.gamma.valor;
 
   // Tasa de colapso: % de sanos perdidos en el momento del pico
-  const sanoEnPico  = datos.find(d => d.dia === stats.diaPico)?.sanos ?? p.sanoInicial;
+  const sanoEnPico = datos.find(d => d.dia === stats.diaPico)?.sanos ?? p.sanoInicial;
   const tasaColapso = ((p.sanoInicial - sanoEnPico) / p.sanoInicial) * 100;
 
   // Día de cruce: primer día en que infectados superan a sanos
@@ -165,9 +182,9 @@ function calcularMetricas(idCiudad) {
   }
 
   return {
-    R0:                  R0.toFixed(2),
+    R0: R0.toFixed(2),
     velocidadPropagacion: stats.diaPico,
-    tasaColapso:         tasaColapso.toFixed(1),
+    tasaColapso: tasaColapso.toFixed(1),
     diaCruce,
     ciclos
   };

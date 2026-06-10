@@ -1,0 +1,25 @@
+{
+  "ciudad": "La Plata",
+  "tipo": "Capital provincial / Ciudad intermedia",
+  "provincia": "Buenos Aires",
+  "poblacion_inicial": 800000,
+  "parametros": {
+    "alpha": 0.025,
+    "beta": 0.000000225,
+    "delta": 0.0000001875,
+    "gamma": 0.06
+  },
+  "condiciones_iniciales": {
+    "poblacion_sana": 799900,
+    "poblacion_infectada": 100
+  },
+  "simulacion": {
+    "dias": 365
+  },
+  "justificacion": {
+    "alpha": "Tasa de crecimiento moderada. La Plata, como capital administrativa y ciudad universitaria, combina población estable con flujo de estudiantes y trabajadores, lo que suaviza tanto el crecimiento natural como la migración neta.",
+    "beta": "Tasa de contagio alta pero moderada. La estructura urbana incluye barrios densos, centros comerciales, universidades y transporte público frecuente, lo que genera contactos cercanos, aunque con mezcla de zonas residenciales menos saturadas y espacios abiertos.",
+    "delta": "Propagación viral moderada-alta. La concentración de personas en facultades, oficinas públicas, tribunales y transporte interurbano favorece la circulación del virus, pero la presencia de parques, diagonales amplias y cierta dispersión barrial limita la transmisión extrema.",
+    "gamma": "Recuperación relativamente alta. La ciudad cuenta con varios hospitales de referencia, clínicas privadas, centros de salud y presencia de facultades relacionadas con ciencias de la salud, lo que mejora el acceso a diagnóstico, seguimiento médico y tratamiento, elevando la tasa efectiva de recuperación."
+  }
+}

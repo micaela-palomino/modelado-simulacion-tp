@@ -7,23 +7,37 @@ import java.util.List;
 /**
  * Motor de simulación basado en el modelo Lotka-Volterra adaptado para pandemia.
  *
- * Ecuaciones:
- *   dS/dt = α·S - β·S·I   (cambio en población sana)
- *   dI/dt = δ·S·I - γ·I   (cambio en población infectada)
+ * Analogía con Lotka-Volterra clásico (presa-depredador):
+ *   - Sanos (S) ≈ presas     → son "consumidos" por el virus
+ *   - Infectados (I) ≈ depredadores → "se alimentan" de la población sana
  *
+ * Ecuaciones adaptadas al contexto epidemiológico:
+ *   dS/dt = α·S·(1 - (S+I)/N) - β·S·I
+ *     → la población sana crece con tasa α limitada por la capacidad de carga N
+ *       (crecimiento logístico), y se reduce por contagio al interactuar con
+ *       infectados (β·S·I).
+ *
+ *   dI/dt = δ·S·I - γ·I
+ *     → los infectados aumentan por contagio proporcional al contacto S·I (con eficiencia δ),
+ *       y disminuyen por recuperación con tasa γ.
+ *
+ * La población total N actúa como capacidad de carga del sistema.
  * Integración numérica con método Runge-Kutta de orden 4 (RK4).
  */
 public class LotkaVolterra {
 
-    // Parámetros del modelo Lotka-Volterra
-    private double alpha;   // tasa de crecimiento de la población sana
-    private double beta;    // tasa de contagio (sano → infectado por contacto)
-    private double delta;   // tasa de propagación viral (eficiencia del virus)
-    private double gamma;   // tasa de recuperación / extinción del virus
+    // Parámetros del modelo Lotka-Volterra adaptado a pandemia
+    private double alpha;   // tasa de crecimiento de la población sana (logístico)
+    private double beta;    // tasa de contagio (sano → infectado por contacto con infectados)
+    private double delta;   // eficiencia de la propagación viral (contagio efectivo)
+    private double gamma;   // tasa de recuperación (infectado → recuperado)
 
     // Condiciones iniciales
     private double poblacionSana;
     private double poblacionInfectada;
+
+    // Capacidad de carga del sistema (población total inicial)
+    private double poblacionTotal;
 
     // Resultados acumulados de la simulación
     private List<SimulationResult> resultados;
@@ -36,20 +50,23 @@ public class LotkaVolterra {
         this.gamma = gamma;
         this.poblacionSana = poblacionSana;
         this.poblacionInfectada = poblacionInfectada;
+        this.poblacionTotal = poblacionSana + poblacionInfectada;
         this.resultados = new ArrayList<>();
     }
 
     /**
-     * Derivada de la población sana: dS/dt = α·S - β·S·I
-     * La población sana crece naturalmente (α) pero decrece por contagio (β·I).
+     * Derivada de la población sana: dS/dt = α·S·(1 - (S+I)/N) - β·S·I
+     * La población sana crece con tasa α limitada por la capacidad de carga N
+     * (crecimiento logístico), y se reduce por contagio (β·S·I).
      */
     private double dS(double s, double i) {
-        return alpha * s - beta * s * i;
+        return alpha * s * (1.0 - (s + i) / poblacionTotal) - beta * s * i;
     }
 
     /**
      * Derivada de la población infectada: dI/dt = δ·S·I - γ·I
-     * Los infectados aumentan por contagio (δ·S) pero disminuyen por recuperación (γ).
+     * Los infectados aumentan por contagio proporcional al contacto S·I
+     * y disminuyen por recuperación (γ).
      */
     private double dI(double s, double i) {
         return delta * s * i - gamma * i;
@@ -100,6 +117,14 @@ public class LotkaVolterra {
             if (s < 0) s = 0;
             if (i < 0) i = 0;
 
+            // Garantizar que S + I no supere N (conservación de población)
+            double sumaActual = s + i;
+            if (sumaActual > poblacionTotal) {
+                double factor = poblacionTotal / sumaActual;
+                s *= factor;
+                i *= factor;
+            }
+
             resultados.add(new SimulationResult(dia, s, i));
         }
 
@@ -122,7 +147,8 @@ public class LotkaVolterra {
             writer.println("dia,poblacion_sana,poblacion_infectada");
 
             for (SimulationResult resultado : resultados) {
-                writer.printf("%d,%.4f,%.4f%n",
+                // Locale.US fuerza el punto decimal para evitar conflicto con la coma del CSV
+                writer.printf(java.util.Locale.US, "%d,%.4f,%.4f%n",
                         resultado.getDia(),
                         resultado.getPoblacionSana(),
                         resultado.getPoblacionInfectada());
