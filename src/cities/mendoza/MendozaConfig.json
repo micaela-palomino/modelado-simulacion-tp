@@ -1,0 +1,29 @@
+{
+  "ciudad": "Gran Mendoza",
+  "tipo": "Universitaria / Turística",
+  "provincia": "Mendoza",
+  "poblacion_inicial": 1100000,
+
+  "parametros": {
+    "alpha": 0.025,
+    "beta": 0.000000090,
+    "delta": 0.000000075,
+    "gamma": 0.075
+  },
+
+  "condiciones_iniciales": {
+    "poblacion_sana": 1099900,
+    "poblacion_infectada": 100
+  },
+
+  "simulacion": {
+    "dias": 365
+  },
+
+  "justificacion": {
+    "alpha": "Tasa de crecimiento moderada. Población metropolitana estable con renovación constante por la comunidad universitaria (UNCuyo, UTN, UM) pero sin el dinamismo demográfico extremo de los partidos del AMBA.",
+    "beta": "Contagio moderado-alto. La densidad (~600 hab/km²) es menor que en el AMBA, pero el turismo de temporada (ski en Las Leñas/Los Penitentes, vendimia en marzo) y la alta movilidad estudiantil generan picos de contacto que elevan la tasa de contagio.",
+    "delta": "Propagación viral moderada. El clima seco andino y la menor humedad favorecen la ventilación natural, reduciendo la eficiencia del virus en comparación con ciudades costeras o del AMBA. Sin embargo, los espacios cerrados durante el invierno compensan parcialmente esta ventaja.",
+    "gamma": "Recuperación moderada-buena. El Hospital Central de Mendoza actúa como referencia regional y la red de hospitales provinciales (Lagomaggiore, Schestakow, etc.) junto con un sector privado relativamente desarrollado ofrecen mejor cobertura que ciudades satélite del AMBA. La capacidad es limitada ante un brote masivo extendido a toda el área metropolitana."
+  }
+}

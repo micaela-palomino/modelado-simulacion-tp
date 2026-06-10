@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Motor de simulación basado en el modelo Lotka-Volterra adaptado para pandemia.
@@ -122,7 +123,7 @@ public class LotkaVolterra {
             writer.println("dia,poblacion_sana,poblacion_infectada");
 
             for (SimulationResult resultado : resultados) {
-                writer.printf("%d,%.4f,%.4f%n",
+                writer.printf(Locale.US, "%d,%.4f,%.4f%n",
                         resultado.getDia(),
                         resultado.getPoblacionSana(),
                         resultado.getPoblacionInfectada());

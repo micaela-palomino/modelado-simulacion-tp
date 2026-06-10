@@ -22,6 +22,10 @@ public class Main {
         LaMatanzaCity laMatanza = new LaMatanzaCity();
         laMatanza.ejecutarYExportar();
 
+        // --- Simulación: Gran Mendoza ---
+        MendozaCity mendoza = new MendozaCity();
+        mendoza.ejecutarYExportar();
+
         // --- Agregar más ciudades aquí ---
         // Ejemplo para cuando otro grupo agregue su ciudad:
         //

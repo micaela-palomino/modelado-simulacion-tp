@@ -10,7 +10,8 @@
       "sourcePaths": [
         "${workspaceFolder}/src",
         "${workspaceFolder}/src/core",
-        "${workspaceFolder}/src/cities/lamatanza"
+        "${workspaceFolder}/src/cities/lamatanza",
+        "${workspaceFolder}/src/cities/mendoza"
       ],
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal"

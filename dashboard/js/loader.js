@@ -24,6 +24,23 @@ const CIUDADES = [
       infectadoInicial: 100
     }
   },
+  {
+    id: 'mendoza',
+    nombre: 'Gran Mendoza',
+    tipo: 'Universitaria / Turística',
+    color: '#8e44ad',
+    colorSanos: '#2980b9',
+    colorRecuperados: '#1abc9c',
+    poblacionTotal: 1100000,
+    params: {
+      alpha: { valor: 0.025,        label: 'α — Crecimiento sano',  desc: 'Población metropolitana estable con renovación constante por la comunidad universitaria (UNCuyo, UTN, UM), sin el dinamismo demográfico extremo del AMBA.' },
+      beta:  { valor: 0.000000090,  label: 'β — Tasa de contagio',  desc: 'Densidad moderada (~600 hab/km²), pero el turismo estacional (ski, vendimia) y la alta movilidad estudiantil generan picos de contacto que elevan el contagio.' },
+      delta: { valor: 0.000000075,  label: 'δ — Propagación viral', desc: 'Clima seco andino y menor humedad favorecen la ventilación natural. Los espacios cerrados en invierno compensan parcialmente esta ventaja.' },
+      gamma: { valor: 0.075,        label: 'γ — Recuperación',      desc: 'Hospital Central de Mendoza como referencia regional + red provincial (Lagomaggiore, Schestakow) + sector privado desarrollado. Mejor cobertura que ciudades satélite del AMBA.' },
+      sanoInicial:      1099900,
+      infectadoInicial: 100
+    }
+  },
   // --- Agregar ciudades nuevas debajo ---
   // {
   //   id: 'bariloche',
