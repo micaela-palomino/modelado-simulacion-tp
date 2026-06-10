@@ -1,5 +1,5 @@
 /**
- * loader.js â€” Carga, parseo y mÃ©tricas de los datos de cada ciudad.
+ * loader.js — Carga, parseo y métricas de los datos de cada ciudad.
  *
  * Para agregar una ciudad nueva:
  *   1. Agregar entrada en el array CIUDADES con sus params y colores
@@ -10,16 +10,16 @@ const CIUDADES = [
   {
     id: 'lamatanza',
     nombre: 'La Matanza',
-    tipo: 'SatÃ©lite / Suburbio AMBA',
+    tipo: 'Satélite / Suburbio AMBA',
     color: '#e74c3c',             // infectados
     colorSanos: '#3498db',        // sanos
     colorRecuperados: '#27ae60',  // recuperados
     poblacionTotal: 1750000,
     params: {
-      alpha: { valor: 0.03, label: 'Î± â€” Crecimiento sano', desc: 'Ciudad joven con alta natalidad, pero alta exposiciÃ³n y movilidad limitan la recuperaciÃ³n natural de la poblaciÃ³n.' },
-      beta: { valor: 0.00000012, label: 'Î² â€” Tasa de contagio', desc: 'Alta densidad (~2.800 hab/kmÂ²) + transporte masivo (trenes Roca, Belgrano Sur, cientos de lÃ­neas de colectivos) = contacto permanente entre sanos e infectados.' },
-      delta: { valor: 0.00000010, label: 'Î´ â€” PropagaciÃ³n viral', desc: 'Hacinamiento residencial y mala ventilaciÃ³n en viviendas precarias y transporte pÃºblico potencian la eficiencia del virus.' },
-      gamma: { valor: 0.045, label: 'Î³ â€” RecuperaciÃ³n', desc: 'Solo ~3 hospitales pÃºblicos principales para 1.75M de habitantes. Sin alta complejidad propia; depende del sistema sanitario del AMBA.' },
+      alpha: { valor: 0.03, label: 'α — Crecimiento sano', desc: 'Ciudad joven con alta natalidad, pero alta exposición y movilidad limitan la recuperación natural de la población.' },
+      beta: { valor: 0.00000012, label: 'β — Tasa de contagio', desc: 'Alta densidad (~2.800 hab/km²) + transporte masivo (trenes Roca, Belgrano Sur, cientos de líneas de colectivos) = contacto permanente entre sanos e infectados.' },
+      delta: { valor: 0.00000010, label: 'δ — Propagación viral', desc: 'Hacinamiento residencial y mala ventilación en viviendas precarias y transporte público potencian la eficiencia del virus.' },
+      gamma: { valor: 0.045, label: 'γ — Recuperación', desc: 'Solo ~3 hospitales públicos principales para 1.75M de habitantes. Sin alta complejidad propia; depende del sistema sanitario del AMBA.' },
       sanoInicial: 1749900,
       infectadoInicial: 100
     }
@@ -33,10 +33,10 @@ const CIUDADES = [
     colorRecuperados: '#2ecc71',  // recuperados
     poblacionTotal: 800000,
     params: {
-      alpha: { valor: 0.025, label: 'Î± â€” Crecimiento sano', desc: 'Tasa de crecimiento moderada. Ciudad universitaria con poblaciÃ³n estable y flujo de estudiantes/trabajadores que suaviza el crecimiento natural y la migraciÃ³n neta.' },
-      beta: { valor: 0.000000225, label: 'Î² â€” Tasa de contagio', desc: 'Contagio moderado. Barrios densos, universidades y transporte pÃºblico frecuente generan contactos cercanos, atenuados por zonas residenciales menos saturadas y espacios abiertos.' },
-      delta: { valor: 0.0000001875, label: 'Î´ â€” PropagaciÃ³n viral', desc: 'PropagaciÃ³n moderada. ConcentraciÃ³n en facultades, oficinas pÃºblicas y transporte interurbano, limitada por parques y diagonales amplias. R0 â‰ˆ 2.5.' },
-      gamma: { valor: 0.06, label: 'Î³ â€” RecuperaciÃ³n', desc: 'RecuperaciÃ³n relativamente alta. Hospitales de referencia, clÃ­nicas privadas y presencia de facultades de ciencias de la salud mejoran el acceso a tratamiento.' },
+      alpha: { valor: 0.025, label: 'α — Crecimiento sano', desc: 'Tasa de crecimiento moderada. Ciudad universitaria con población estable y flujo de estudiantes/trabajadores que suaviza el crecimiento natural y la migración neta.' },
+      beta: { valor: 0.000000225, label: 'β — Tasa de contagio', desc: 'Contagio moderado. Barrios densos, universidades y transporte público frecuente generan contactos cercanos, atenuados por zonas residenciales menos saturadas y espacios abiertos.' },
+      delta: { valor: 0.0000001875, label: 'δ — Propagación viral', desc: 'Propagación moderada. Concentración en facultades, oficinas públicas y transporte interurbano, limitada por parques y diagonales amplias. R0 ≈ 2.5.' },
+      gamma: { valor: 0.06, label: 'γ — Recuperación', desc: 'Recuperación relativamente alta. Hospitales de referencia, clínicas privadas y presencia de facultades de ciencias de la salud mejoran el acceso a tratamiento.' },
       sanoInicial: 799900,
       infectadoInicial: 100
     }
@@ -44,16 +44,16 @@ const CIUDADES = [
   {
     id: 'mendoza',
     nombre: 'Gran Mendoza',
-    tipo: 'Universitaria / TurÃ­stica',
+    tipo: 'Universitaria / Turística',
     color: '#8e44ad',
     colorSanos: '#2980b9',
     colorRecuperados: '#1abc9c',
     poblacionTotal: 1100000,
     params: {
-      alpha: { valor: 0.025,        label: 'Î± â€” Crecimiento sano',  desc: 'PoblaciÃ³n metropolitana estable con renovaciÃ³n constante por la comunidad universitaria (UNCuyo, UTN, UM), sin el dinamismo demogrÃ¡fico extremo del AMBA.' },
-      beta:  { valor: 0.000000090,  label: 'Î² â€” Tasa de contagio',  desc: 'Densidad moderada (~600 hab/kmÂ²), pero el turismo estacional (ski, vendimia) y la alta movilidad estudiantil generan picos de contacto que elevan el contagio.' },
-      delta: { valor: 0.000000075,  label: 'Î´ â€” PropagaciÃ³n viral', desc: 'Clima seco andino y menor humedad favorecen la ventilaciÃ³n natural. Los espacios cerrados en invierno compensan parcialmente esta ventaja.' },
-      gamma: { valor: 0.075,        label: 'Î³ â€” RecuperaciÃ³n',      desc: 'Hospital Central de Mendoza como referencia regional + red provincial (Lagomaggiore, Schestakow) + sector privado desarrollado. Mejor cobertura que ciudades satÃ©lite del AMBA.' },
+      alpha: { valor: 0.025,        label: 'α — Crecimiento sano',  desc: 'Población metropolitana estable con renovación constante por la comunidad universitaria (UNCuyo, UTN, UM), sin el dinamismo demográfico extremo del AMBA.' },
+      beta:  { valor: 0.000000090,  label: 'β — Tasa de contagio',  desc: 'Densidad moderada (~600 hab/km²), pero el turismo estacional (ski, vendimia) y la alta movilidad estudiantil generan picos de contacto que elevan el contagio.' },
+      delta: { valor: 0.000000075,  label: 'δ — Propagación viral', desc: 'Clima seco andino y menor humedad favorecen la ventilación natural. Los espacios cerrados en invierno compensan parcialmente esta ventaja.' },
+      gamma: { valor: 0.075,        label: 'γ — Recuperación',      desc: 'Hospital Central de Mendoza como referencia regional + red provincial (Lagomaggiore, Schestakow) + sector privado desarrollado. Mejor cobertura que ciudades satélite del AMBA.' },
       sanoInicial:      1099900,
       infectadoInicial: 100
     }
@@ -62,16 +62,16 @@ const CIUDADES = [
   {
     id: 'bariloche',
     nombre: 'Bariloche',
-    tipo: 'TurÃ­stica / PatagÃ³nica',
+    tipo: 'Turística / Patagónica',
     color: '#9b59b6',
     colorSanos: '#2980b9',
     colorRecuperados: '#1abc9c',
     poblacionTotal: 133000,
     params: {
-      alpha: { valor: 0.03,        label: 'Î± â€” Crecimiento sano',   desc: 'PoblaciÃ³n estable con crecimiento moderado por migraciÃ³n. Ciudad joven que atrae residentes del sector turÃ­stico y servicios.' },
-      beta:  { valor: 0.00000085,  label: 'Î² â€” Tasa de contagio',   desc: 'Alta por el flujo turÃ­stico estacional: entre 500.000 y 1.000.000 de visitantes anuales concentrados en temporadas de ski y verano generan contacto intenso con la poblaciÃ³n local.' },
-      delta: { valor: 0.00000070,  label: 'Î´ â€” PropagaciÃ³n viral',  desc: 'Media-alta por la concentraciÃ³n en espacios cerrados durante temporada alta: hoteles, refugios de montaÃ±a, telefÃ©ricos y transporte turÃ­stico.' },
-      gamma: { valor: 0.040,       label: 'Î³ â€” RecuperaciÃ³n',       desc: 'Baja: el Hospital Zonal RamÃ³n Carrillo es el Ãºnico hospital pÃºblico de referencia para ~150.000 kmÂ² de regiÃ³n. Aislamiento geogrÃ¡fico (1.650 km de CABA) retrasa derivaciones y refuerzos.' },
+      alpha: { valor: 0.03,        label: 'α — Crecimiento sano',   desc: 'Población estable con crecimiento moderado por migración. Ciudad joven que atrae residentes del sector turístico y servicios.' },
+      beta:  { valor: 0.00000085,  label: 'β — Tasa de contagio',   desc: 'Alta por el flujo turístico estacional: entre 500.000 y 1.000.000 de visitantes anuales concentrados en temporadas de ski y verano generan contacto intenso con la población local.' },
+      delta: { valor: 0.00000070,  label: 'δ — Propagación viral',  desc: 'Media-alta por la concentración en espacios cerrados durante temporada alta: hoteles, refugios de montaña, teleféricos y transporte turístico.' },
+      gamma: { valor: 0.040,       label: 'γ — Recuperación',       desc: 'Baja: el Hospital Zonal Ramón Carrillo es el único hospital público de referencia para ~150.000 km² de región. Aislamiento geográfico (1.650 km de CABA) retrasa derivaciones y refuerzos.' },
       sanoInicial:      132950,
       infectadoInicial: 50
     }
@@ -83,7 +83,7 @@ const datosCiudades = {};
 
 /**
  * Parsea el CSV y calcula recuperados = max(0, N - sanos - infectados).
- * En Lotka-Volterra la poblaciÃ³n no se conserva, por eso se clampea a 0.
+ * En Lotka-Volterra la población no se conserva, por eso se clampea a 0.
  */
 function parsearCSV(texto, poblacionTotal) {
   const lineas = texto.trim().split('\n');
@@ -116,10 +116,10 @@ function cargarCSVCiudad(ciudad) {
     })
     .then(texto => {
       datosCiudades[ciudad.id] = parsearCSV(texto, ciudad.poblacionTotal);
-      console.log(`âœ“ ${ciudad.nombre}: ${datosCiudades[ciudad.id].length} dÃ­as`);
+      console.log(`✓ ${ciudad.nombre}: ${datosCiudades[ciudad.id].length} días`);
     })
     .catch(err => {
-      console.warn(`âš  ${ciudad.nombre} no disponible â€” ${err.message}`);
+      console.warn(`⚠ ${ciudad.nombre} no disponible — ${err.message}`);
     });
 }
 
@@ -132,8 +132,8 @@ function getCiudadesDisponibles() {
 }
 
 /**
- * EstadÃ­sticas de comparaciÃ³n para la tabla:
- * pico, dÃ­a pico, duraciÃ³n del brote, % de poblaciÃ³n afectada.
+ * Estadísticas de comparación para la tabla:
+ * pico, día pico, duración del brote, % de población afectada.
  */
 function calcularEstadisticas(idCiudad) {
   const ciudad = CIUDADES.find(c => c.id === idCiudad);
@@ -150,7 +150,7 @@ function calcularEstadisticas(idCiudad) {
     }
   }
 
-  // DuraciÃ³n del brote: dÃ­as desde el pico hasta bajar al 1% del pico
+  // Duración del brote: días desde el pico hasta bajar al 1% del pico
   const umbral = picoInfectados * 0.01;
   let duracionBrote = datos[datos.length - 1].dia - diaPico;
   for (const p of datos) {
@@ -171,7 +171,7 @@ function calcularEstadisticas(idCiudad) {
 }
 
 /**
- * MÃ©tricas del modelo Lotka-Volterra para el panel de anÃ¡lisis.
+ * Métricas del modelo Lotka-Volterra para el panel de análisis.
  */
 function calcularMetricas(idCiudad) {
   const ciudad = CIUDADES.find(c => c.id === idCiudad);
@@ -181,20 +181,20 @@ function calcularMetricas(idCiudad) {
   const p = ciudad.params;
   const stats = calcularEstadisticas(idCiudad);
 
-  // R0 estimado: nÃºmero reproductivo bÃ¡sico (aproximaciÃ³n para Lotka-Volterra)
+  // R0 estimado: número reproductivo básico (aproximación para Lotka-Volterra)
   const R0 = (p.beta.valor * p.sanoInicial) / p.gamma.valor;
 
   // Tasa de colapso: % de sanos perdidos en el momento del pico
   const sanoEnPico = datos.find(d => d.dia === stats.diaPico)?.sanos ?? p.sanoInicial;
   const tasaColapso = ((p.sanoInicial - sanoEnPico) / p.sanoInicial) * 100;
 
-  // DÃ­a de cruce: primer dÃ­a en que infectados superan a sanos
+  // Día de cruce: primer día en que infectados superan a sanos
   let diaCruce = null;
   for (const d of datos) {
     if (d.infectados > d.sanos) { diaCruce = d.dia; break; }
   }
 
-  // Ciclos de oscilaciÃ³n: cantidad de mÃ¡ximos locales por encima del 5% del pico
+  // Ciclos de oscilación: cantidad de máximos locales por encima del 5% del pico
   const umbralCiclo = stats.picoInfectados * 0.05;
   let ciclos = 0;
   for (let i = 1; i < datos.length - 1; i++) {

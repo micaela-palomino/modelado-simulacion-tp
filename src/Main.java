@@ -1,24 +1,24 @@
 /**
- * Entry point del TP de Modelado y SimulaciÃ³n.
+ * Entry point del TP de Modelado y Simulación.
  *
- * Corre la simulaciÃ³n de cada ciudad configurada y exporta los CSVs
+ * Corre la simulación de cada ciudad configurada y exporta los CSVs
  * tanto a resources/ como a dashboard/data/ para el dashboard web.
  *
  * Para agregar una ciudad nueva:
  *   1. Crear la carpeta src/cities/tuciudad/
- *   2. Crear TuCiudadCity.java siguiendo el patrÃ³n de LaMatanzaCity
+ *   2. Crear TuCiudadCity.java siguiendo el patrón de LaMatanzaCity
  *   3. Instanciar y llamar a ejecutarYExportar() en este main
  */
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—");
-        System.out.println("â•‘  TP Modelado y SimulaciÃ³n â€” Pandemia: Lotka-Volterra    â•‘");
-        System.out.println("â•‘  UADE â€” Trabajo PrÃ¡ctico Grupal                         â•‘");
-        System.out.println("â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•");
+        System.out.println("==========================================================");
+        System.out.println("TP Modelado y Simulación - Pandemia: Lotka-Volterra");
+        System.out.println("UADE - Trabajo Práctico Grupal");
+        System.out.println("==========================================================");
         System.out.println();
 
-        // --- SimulaciÃ³n: La Matanza ---
+        // --- Simulación: La Matanza ---
         LaMatanzaCity laMatanza = new LaMatanzaCity();
         laMatanza.ejecutarYExportar();
 
@@ -40,8 +40,8 @@ public class Main {
         // OtraCiudadCity otraCiudad = new OtraCiudadCity();
         // otraCiudad.ejecutarYExportar();
 
-        System.out.println("â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—");
-        System.out.println("â•‘  Simulaciones completadas. AbrÃ­ dashboard/index.html    â•‘");
-        System.out.println("â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•");
+        System.out.println("==========================================================");
+        System.out.println("Simulaciones completadas. Abrí dashboard/index.html");
+        System.out.println("==========================================================");
     }
 }
