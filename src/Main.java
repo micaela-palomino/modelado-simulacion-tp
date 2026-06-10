@@ -26,14 +26,15 @@ public class Main {
         MendozaCity mendoza = new MendozaCity();
         mendoza.ejecutarYExportar();
 
+        // --- Simulación: La Plata ---
+        LaPlataCity laPlata = new LaPlataCity();
+        laPlata.ejecutarYExportar();
+
         // --- Agregar más ciudades aquí ---
         // Ejemplo para cuando otro grupo agregue su ciudad:
         //
         // BarilocheCity bariloche = new BarilocheCity();
         // bariloche.ejecutarYExportar();
-        //
-        // LaPlataCity laPlata = new LaPlataCity();
-        // laPlata.ejecutarYExportar();
 
         System.out.println("╔══════════════════════════════════════════════════════════╗");
         System.out.println("║  Simulaciones completadas. Abrí dashboard/index.html    ║");
