@@ -60,6 +60,23 @@ const CIUDADES = [
   },
   // --- Agregar ciudades nuevas debajo ---
   {
+    id: 'ushuaia',
+    nombre: 'Ushuaia',
+    tipo: 'Turística / Patagónica aislada',
+    color: '#16a085',
+    colorSanos: '#2980b9',
+    colorRecuperados: '#27ae60',
+    poblacionTotal: 90000,
+    params: {
+      alpha: { valor: 0.020,      label: 'α — Crecimiento sano',  desc: 'Tasa baja-moderada. Ushuaia crece principalmente por migración laboral (zona franca, turismo, empleo estatal); base poblacional pequeña y estabilizada en ~90.000 hab.' },
+      beta:  { valor: 0.0000013,  label: 'β — Tasa de contagio',  desc: 'Muy alta para su tamaño. Más de 300.000 turistas/año más cruceros antárticos; en temporada alta la ciudad puede casi duplicar su población transitoria. Un crucero aporta más pasajeros que el 1 % del padrón local.' },
+      delta: { valor: 0.0000010,  label: 'δ — Propagación viral', desc: 'Alta. Los inviernos fríos concentran a la población en espacios cerrados (hoteles, refugios, teleférico, remises turísticos), donde la escasa ventilación potencia la eficiencia del virus.' },
+      gamma: { valor: 0.030,      label: 'γ — Recuperación',      desc: 'Muy baja. El Hospital Regional de Ushuaia es el único hospital público provincial (nivel III). Las derivaciones a Buenos Aires (3.200 km, mínimo 3 h de vuelo) son costosas y dependientes del clima patagónico; un brote masivo colapsa el sistema rápidamente.' },
+      sanoInicial:      89970,
+      infectadoInicial: 30
+    }
+  },
+  {
     id: 'bariloche',
     nombre: 'Bariloche',
     tipo: 'Turística / Patagónica',
@@ -91,6 +108,23 @@ const CIUDADES = [
       gamma: { valor: 0.000000085, label: 'γ — Recuperacion', desc: 'Escala sanitaria mas limitada que en ciudades grandes, lo que reduce la velocidad de recuperacion ante un brote rapido.' },
       sanoInicial: 24990,
       infectadoInicial: 10
+  }
+  },
+  {
+    id: 'cordoba',
+    nombre: 'Gran Córdoba',
+    tipo: 'Universitaria / Metropolitana del interior',
+    color: '#e67e22',             // infectados
+    colorSanos: '#2980b9',        // sanos
+    colorRecuperados: '#27ae60',  // recuperados
+    poblacionTotal: 1500000,
+    params: {
+      alpha: { valor: 0.030,       label: 'α — Crecimiento sano',  desc: 'Ciudad joven y universitaria ("La Docta") con fuerte renovación poblacional por la llegada constante de estudiantes del interior del país.' },
+      beta:  { valor: 0.00000017,  label: 'β — Tasa de contagio',  desc: 'Alta: gran densidad del casco céntrico, transporte urbano masivo y una enorme población universitaria (UNC, UTN, privadas) que se concentra en facultades, bares y eventos. R0 ≈ 3.6.' },
+      delta: { valor: 0.00000014,  label: 'δ — Propagación viral', desc: 'Alta: el hacinamiento en aulas, transporte y vida nocturna estudiantil potencia la eficiencia del contagio, atenuado solo parcialmente por el clima mediterráneo seco.' },
+      gamma: { valor: 0.070,       label: 'γ — Recuperación',      desc: 'Moderada-buena: polo sanitario del centro del país (Hospital de Urgencias, Hospital Córdoba, Hospital Privado, Sanatorio Allende) + Facultad de Ciencias Médicas de la UNC. Exigido ante un brote masivo.' },
+      sanoInicial:      1499900,
+      infectadoInicial: 100
     }
   },
 ];

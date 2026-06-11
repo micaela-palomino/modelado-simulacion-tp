@@ -37,6 +37,13 @@ public class Main {
         // --- Simulación: El Bolsón ---
         ElBolsonCity elBolson = new ElBolsonCity();
         elBolson.ejecutarYExportar();
+        // --- Simulación: Gran Córdoba ---
+        CordobaCity cordoba = new CordobaCity();
+        cordoba.ejecutarYExportar();
+
+        // --- Simulación: Ushuaia ---
+        UshuaiaCity ushuaia = new UshuaiaCity();
+        ushuaia.ejecutarYExportar();
 
         // --- Agregar más ciudades aquí ---
         // Ejemplo para cuando otro grupo agregue su ciudad:
