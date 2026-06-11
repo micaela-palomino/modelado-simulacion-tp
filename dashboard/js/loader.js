@@ -94,6 +94,23 @@ const CIUDADES = [
     }
   },
   {
+    id: 'elbolson',
+    nombre: 'El Bolsón',
+    tipo: 'Turística / Aislada',
+    color: '#d35400',
+    colorSanos: '#16a085',
+    colorRecuperados: '#2ecc71',
+    poblacionTotal: 25000,
+    params: {
+      alpha: { valor: 0.04, label: 'α — Crecimiento sano', desc: 'Localidad turística pequena con recambio demografico moderado por migracion interna y visitantes de temporada.' },
+      beta: { valor: 0.00000008, label: 'β — Tasa de contagio', desc: 'La concentracion de actividad en comercios, ferias y turismo estacional eleva la probabilidad de contacto entre sanos e infectados.' },
+      delta: { valor: 0.00000180, label: 'δ — Propagacion viral', desc: 'Los espacios cerrados y la actividad turistica concentrada pueden hacer muy eficiente la transmision del virus.' },
+      gamma: { valor: 0.000000085, label: 'γ — Recuperacion', desc: 'Escala sanitaria mas limitada que en ciudades grandes, lo que reduce la velocidad de recuperacion ante un brote rapido.' },
+      sanoInicial: 24990,
+      infectadoInicial: 10
+  }
+  },
+  {
     id: 'cordoba',
     nombre: 'Gran Córdoba',
     tipo: 'Universitaria / Metropolitana del interior',

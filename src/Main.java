@@ -34,6 +34,9 @@ public class Main {
         BarilocheCity bariloche = new BarilocheCity();
         bariloche.ejecutarYExportar();
 
+        // --- Simulación: El Bolsón ---
+        ElBolsonCity elBolson = new ElBolsonCity();
+        elBolson.ejecutarYExportar();
         // --- Simulación: Gran Córdoba ---
         CordobaCity cordoba = new CordobaCity();
         cordoba.ejecutarYExportar();
