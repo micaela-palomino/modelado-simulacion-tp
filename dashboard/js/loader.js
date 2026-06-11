@@ -76,6 +76,23 @@ const CIUDADES = [
     }
   },
   {
+    id: 'campana',
+    nombre: 'Campana',
+    tipo: 'Industrial',
+    color: '#d35400',
+    colorSanos: '#7f8c8d',
+    colorRecuperados: '#16a085',
+    poblacionTotal: 95000,
+    params: {
+      alpha: { valor: 0.025, label: 'α — Crecimiento sano', desc: 'Población en edad laboral con migración interna asociada a los polos industriales; renovación estable sin el dinamismo demográfico extremo del AMBA.' },
+      beta: { valor: 0.0000016, label: 'β — Tasa de contagio', desc: 'Fuerte concentración de trabajadores en plantas industriales (polo petroquímico/siderúrgico sobre el río Paraná), transporte laboral compartido y turnos rotativos.' },
+      delta: { valor: 0.0000013, label: 'δ — Propagación viral', desc: 'Espacios industriales cerrados, comedores de fábrica, vestuarios y galpones con ventilación limitada favorecen focos de transmisión.' },
+      gamma: { valor: 0.050, label: 'γ — Recuperación', desc: 'Hospital municipal y cercanía al corredor Zárate-Campana y al AMBA para derivaciones; mejor que una ciudad aislada, por debajo de una metrópolis con alta complejidad propia.' },
+      sanoInicial: 94950,
+      infectadoInicial: 50
+    }
+  },
+  {
     id: 'ushuaia',
     nombre: 'Ushuaia',
     tipo: 'Turística / Patagónica aislada',

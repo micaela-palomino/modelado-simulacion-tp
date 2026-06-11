@@ -19,6 +19,7 @@
         "${workspaceFolder}/src/core",
         "${workspaceFolder}/src/cities/lamatanza",
         "${workspaceFolder}/src/cities/mendoza",
+        "${workspaceFolder}/src/cities/campana",
         "${workspaceFolder}/src/cities/laplata",
         "${workspaceFolder}/src/cities/bariloche",
         "${workspaceFolder}/src/cities/cordoba",
