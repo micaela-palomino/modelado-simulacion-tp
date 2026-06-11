@@ -1,0 +1,29 @@
+{
+  "ciudad": "Gran Córdoba",
+  "tipo": "Universitaria / Metropolitana del interior",
+  "provincia": "Córdoba",
+  "poblacion_inicial": 1500000,
+
+  "parametros": {
+    "alpha": 0.030,
+    "beta": 0.00000017,
+    "delta": 0.00000014,
+    "gamma": 0.070
+  },
+
+  "condiciones_iniciales": {
+    "poblacion_sana": 1499900,
+    "poblacion_infectada": 100
+  },
+
+  "simulacion": {
+    "dias": 365
+  },
+
+  "justificacion": {
+    "alpha": "Tasa de crecimiento dinámica. 'La Docta' es una ciudad joven y universitaria con fuerte renovación poblacional por la llegada constante de estudiantes del interior del país, lo que sostiene un crecimiento de la población sana superior al de ciudades más estables.",
+    "beta": "Contagio alto. La gran densidad del casco céntrico, el transporte urbano masivo y una enorme población universitaria (UNC, UTN, universidades privadas) que se concentra en facultades, bares y eventos generan contacto permanente entre sanos e infectados. El valor da un número reproductivo R0 ≈ 3.6.",
+    "delta": "Propagación viral alta. El hacinamiento en aulas, el transporte público y la intensa vida nocturna estudiantil potencian la eficiencia del contagio. El clima mediterráneo seco atenúa solo parcialmente esta propagación.",
+    "gamma": "Recuperación moderada-buena. Córdoba es el polo sanitario de referencia del centro del país: hospitales públicos de alta complejidad (Hospital de Urgencias, Hospital Córdoba), un sector privado fuerte (Hospital Privado, Sanatorio Allende) y la Facultad de Ciencias Médicas de la UNC. Aun así, la capacidad queda exigida ante un brote masivo en toda el área metropolitana."
+  }
+}
