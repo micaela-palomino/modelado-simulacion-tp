@@ -76,6 +76,23 @@ const CIUDADES = [
       infectadoInicial: 50
     }
   },
+  {
+    id: 'cordoba',
+    nombre: 'Gran Córdoba',
+    tipo: 'Universitaria / Metropolitana del interior',
+    color: '#e67e22',             // infectados
+    colorSanos: '#2980b9',        // sanos
+    colorRecuperados: '#27ae60',  // recuperados
+    poblacionTotal: 1500000,
+    params: {
+      alpha: { valor: 0.030,       label: 'α — Crecimiento sano',  desc: 'Ciudad joven y universitaria ("La Docta") con fuerte renovación poblacional por la llegada constante de estudiantes del interior del país.' },
+      beta:  { valor: 0.00000017,  label: 'β — Tasa de contagio',  desc: 'Alta: gran densidad del casco céntrico, transporte urbano masivo y una enorme población universitaria (UNC, UTN, privadas) que se concentra en facultades, bares y eventos. R0 ≈ 3.6.' },
+      delta: { valor: 0.00000014,  label: 'δ — Propagación viral', desc: 'Alta: el hacinamiento en aulas, transporte y vida nocturna estudiantil potencia la eficiencia del contagio, atenuado solo parcialmente por el clima mediterráneo seco.' },
+      gamma: { valor: 0.070,       label: 'γ — Recuperación',      desc: 'Moderada-buena: polo sanitario del centro del país (Hospital de Urgencias, Hospital Córdoba, Hospital Privado, Sanatorio Allende) + Facultad de Ciencias Médicas de la UNC. Exigido ante un brote masivo.' },
+      sanoInicial:      1499900,
+      infectadoInicial: 100
+    }
+  },
 ];
 
 // Datos cargados por ciudad: { dia, sanos, infectados, recuperados }
