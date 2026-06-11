@@ -5,8 +5,8 @@
   "poblacion_inicial": 25000,
   "parametros": {
     "alpha": 0.04,
-    "beta": 0.02,
-    "delta": 0.015,
+    "beta": 0.00000008,
+    "delta": 0.00000180,
     "gamma": 0.025
   },
   "condiciones_iniciales": {

@@ -31,11 +31,11 @@ public class ElBolsonCity {
 
     // β = 0.02: contagio bajo. Población dispersa en chacras y zonas
     //           rurales, sin transporte público masivo.
-    private static final double BETA = 0.02;
+    private static final double BETA = 0.00000008;
 
     // δ = 0.015: propagación viral muy baja. Espacios abiertos y 
     //            ausencia de hacinamiento dificultan el avance rápido del virus.
-    private static final double DELTA = 0.015;
+    private static final double DELTA = 0.00000180;
 
     // γ = 0.025: recuperación baja. Hospital local de complejidad media-baja.
     //            Dependencia de derivaciones a Bariloche para casos graves.
