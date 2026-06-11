@@ -60,6 +60,23 @@ const CIUDADES = [
   },
   // --- Agregar ciudades nuevas debajo ---
   {
+    id: 'ushuaia',
+    nombre: 'Ushuaia',
+    tipo: 'Turística / Patagónica aislada',
+    color: '#16a085',
+    colorSanos: '#2980b9',
+    colorRecuperados: '#27ae60',
+    poblacionTotal: 90000,
+    params: {
+      alpha: { valor: 0.020,      label: 'α — Crecimiento sano',  desc: 'Tasa baja-moderada. Ushuaia crece principalmente por migración laboral (zona franca, turismo, empleo estatal); base poblacional pequeña y estabilizada en ~90.000 hab.' },
+      beta:  { valor: 0.0000013,  label: 'β — Tasa de contagio',  desc: 'Muy alta para su tamaño. Más de 300.000 turistas/año más cruceros antárticos; en temporada alta la ciudad puede casi duplicar su población transitoria. Un crucero aporta más pasajeros que el 1 % del padrón local.' },
+      delta: { valor: 0.0000010,  label: 'δ — Propagación viral', desc: 'Alta. Los inviernos fríos concentran a la población en espacios cerrados (hoteles, refugios, teleférico, remises turísticos), donde la escasa ventilación potencia la eficiencia del virus.' },
+      gamma: { valor: 0.030,      label: 'γ — Recuperación',      desc: 'Muy baja. El Hospital Regional de Ushuaia es el único hospital público provincial (nivel III). Las derivaciones a Buenos Aires (3.200 km, mínimo 3 h de vuelo) son costosas y dependientes del clima patagónico; un brote masivo colapsa el sistema rápidamente.' },
+      sanoInicial:      89970,
+      infectadoInicial: 30
+    }
+  },
+  {
     id: 'bariloche',
     nombre: 'Bariloche',
     tipo: 'Turística / Patagónica',
