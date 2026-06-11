@@ -1,0 +1,25 @@
+{
+  "ciudad": "El Bolsón",
+  "tipo": "Turística / Patagónica",
+  "provincia": "Río Negro",
+  "poblacion_inicial": 25000,
+  "parametros": {
+    "alpha": 0.04,
+    "beta": 0.02,
+    "delta": 0.015,
+    "gamma": 0.025
+  },
+  "condiciones_iniciales": {
+    "poblacion_sana": 24990,
+    "poblacion_infectada": 10
+  },
+  "simulacion": {
+    "dias": 100
+  },
+  "justificacion": {
+    "alpha": "Crecimiento sano moderado. El Bolson combina una poblacion pequena con dinamismo turistico y migracion interna, lo que sostiene un recambio demografico estable.",
+    "beta": "Tasa de contagio alta. La actividad turistica, la concentracion en comercios y la circulacion estacional de visitantes aumentan el contacto entre sanos e infectados.",
+    "delta": "Propagacion viral alta. La concentracion de actividad en espacios cerrados y el flujo turistico estacional hacen mas eficiente la transmision del virus.",
+    "gamma": "Recuperacion moderada-baja. La escala local y la capacidad sanitaria mas limitada reducen la velocidad de respuesta ante un brote rapido."
+  }
+}
