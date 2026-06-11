@@ -60,6 +60,23 @@ const CIUDADES = [
   },
   // --- Agregar ciudades nuevas debajo ---
   {
+      id: 'rosario',
+    nombre: 'Rosario',
+    tipo: 'Universitaria / Industrial / Portuaria',
+    color: '#3b82f6',
+    colorSanos: '#06b6d4',
+    colorRecuperados: '#22c55e',
+    poblacionTotal: 1300000,
+    params: {
+      alpha: { valor: 0.030, label: 'α — Crecimiento sano', desc: 'Resiliencia poblacional moderada. Ciudad con crecimiento demográfico estable, fuerte presencia universitaria (UNR) y actividad portuaria que mantiene cierta renovación poblacional.' },
+      beta:  { valor: 0.00000028, label: 'β — Tasa de contagio', desc: 'Moderada-alta: densidad urbana elevada en el macrocentro y uso intensivo del transporte público (TUP) generan contacto frecuente entre sanos e infectados.' },
+      delta: { valor: 0.00000022, label: 'δ — Propagación viral', desc: 'Moderada: el movimiento portuario y la conectividad regional (Ruta 9, acceso a AMBA) potencian la propagación, atenuada por conciencia sanitaria post-COVID.' },
+      gamma: { valor: 0.075, label: 'γ — Recuperación', desc: 'Moderada: sistema de salud de nivel medio (HECA, Hospital Alberdi, red de CAPS). Aproximadamente 14 días de infección promedio. Exigido en picos de brote.' },
+      sanoInicial: 1299900,
+      infectadoInicial: 100
+    }
+  },
+  {
     id: 'bariloche',
     nombre: 'Bariloche',
     tipo: 'Turística / Patagónica',

@@ -38,6 +38,10 @@ public class Main {
         CordobaCity cordoba = new CordobaCity();
         cordoba.ejecutarYExportar();
 
+        // --- Simulación: Rosario --- 
+        RosarioCity rosario = new RosarioCity();
+        rosario.ejecutarYExportar();
+
         // --- Agregar más ciudades aquí ---
         // Ejemplo para cuando otro grupo agregue su ciudad:
         //
