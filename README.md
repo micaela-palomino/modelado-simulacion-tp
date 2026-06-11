@@ -236,7 +236,7 @@ Al comparar todas las ciudades, esperamos poder responder:
 | Subgrupo | Ciudad | Integrantes |
 |---|---|---|
 | Grupo 1 | La Matanza | *(completar)* |
-| Grupo 2 | *(elegir ciudad)* | *(completar)* |
+| Grupo 2 | Bariloche | Madary Fernandez, Rodrigo Larrart |
 | Grupo 3 | *(elegir ciudad)* | *(completar)* |
 | Grupo 4 | *(elegir ciudad)* | *(completar)* |
 | Grupo 5 | La Plata | Federico Pelech, Fernando Ale, Tatiana Tornillo |

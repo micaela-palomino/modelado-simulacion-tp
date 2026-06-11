@@ -1,0 +1,29 @@
+{
+  "ciudad": "Campana",
+  "tipo": "Industrial",
+  "provincia": "Buenos Aires",
+  "poblacion_inicial": 95000,
+
+  "parametros": {
+    "alpha": 0.025,
+    "beta": 0.0000016,
+    "delta": 0.0000013,
+    "gamma": 0.050
+  },
+
+  "condiciones_iniciales": {
+    "poblacion_sana": 94950,
+    "poblacion_infectada": 50
+  },
+
+  "simulacion": {
+    "dias": 365
+  },
+
+  "justificacion": {
+    "alpha": "Tasa de crecimiento moderada. Población en edad laboral con migración interna asociada a los polos industriales; la renovación demográfica es estable pero sin el dinamismo extremo de los partidos del AMBA.",
+    "beta": "Contagio moderado-alto. La fuerte concentración de trabajadores en plantas industriales (polo petroquímico/siderúrgico sobre el río Paraná), el transporte laboral compartido y los turnos rotativos multiplican el contacto entre sanos e infectados.",
+    "delta": "Propagación viral moderada-alta. Los espacios industriales cerrados, los comedores de fábrica, los vestuarios y los galpones con ventilación limitada favorecen la aparición de focos de transmisión.",
+    "gamma": "Recuperación media. La ciudad cuenta con hospital municipal y la cercanía al corredor Zárate-Campana y al AMBA permite derivaciones a centros de mayor complejidad; ofrece mejor cobertura que una ciudad aislada, pero queda por debajo de una metrópolis con alta complejidad propia."
+  }
+}

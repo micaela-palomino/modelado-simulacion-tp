@@ -5,9 +5,9 @@
  * tanto a resources/ como a dashboard/data/ para el dashboard web.
  *
  * Para agregar una ciudad nueva:
- *   1. Crear la carpeta src/cities/tuciudad/
- *   2. Crear TuCiudadCity.java siguiendo el patrón de LaMatanzaCity
- *   3. Instanciar y llamar a ejecutarYExportar() en este main
+ * 1. Crear la carpeta src/cities/tuciudad/
+ * 2. Crear TuCiudadCity.java siguiendo el patrón de LaMatanzaCity
+ * 3. Instanciar y llamar a ejecutarYExportar() en este main
  */
 public class Main {
 
@@ -42,4 +42,54 @@ public class Main {
         System.out.println("Simulaciones completadas. Abrí dashboard/index.html");
         System.out.println("==========================================================");
     }
+        public static void main(String[] args) {
+                System.out.println("==========================================================");
+                System.out.println("TP Modelado y Simulación - Pandemia: Lotka-Volterra");
+                System.out.println("UADE - Trabajo Práctico Grupal");
+                System.out.println("==========================================================");
+                System.out.println();
+
+                // --- Simulación: La Matanza ---
+                LaMatanzaCity laMatanza = new LaMatanzaCity();
+                laMatanza.ejecutarYExportar();
+
+                // --- Simulación: Gran Mendoza ---
+                MendozaCity mendoza = new MendozaCity();
+                mendoza.ejecutarYExportar();
+
+                // --- Simulación: La Plata ---
+                LaPlataCity laPlata = new LaPlataCity();
+                laPlata.ejecutarYExportar();
+
+                // --- Simulación: Bariloche ---
+                BarilocheCity bariloche = new BarilocheCity();
+                bariloche.ejecutarYExportar();
+
+                // --- Simulación: Campana ---
+                CampanaCity campana = new CampanaCity();
+                campana.ejecutarYExportar();
+
+                // --- Simulación: El Bolsón ---
+                ElBolsonCity elBolson = new ElBolsonCity();
+                elBolson.ejecutarYExportar();
+                // --- Simulación: Gran Córdoba ---
+                CordobaCity cordoba = new CordobaCity();
+                cordoba.ejecutarYExportar();
+                // --- Simulación: Rosario ---
+                RosarioCity rosario = new RosarioCity();
+                rosario.ejecutarYExportar();
+                // --- Simulación: Ushuaia ---
+                UshuaiaCity ushuaia = new UshuaiaCity();
+                ushuaia.ejecutarYExportar();
+
+                // --- Agregar más ciudades aquí ---
+                // Ejemplo para cuando otro grupo agregue su ciudad:
+                //
+                // OtraCiudadCity otraCiudad = new OtraCiudadCity();
+                // otraCiudad.ejecutarYExportar();
+
+                System.out.println("==========================================================");
+                System.out.println("Simulaciones completadas. Abrí dashboard/index.html");
+                System.out.println("==========================================================");
+        }
 }
