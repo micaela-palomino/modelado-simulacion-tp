@@ -59,6 +59,23 @@ const CIUDADES = [
     }
   },
   {
+    id: 'mardelplata',
+    nombre: 'Mar del Plata',
+    tipo: 'Turística / Balnearia',
+    color: '#e67e22',
+    colorSanos: '#16a085',
+    colorRecuperados: '#f39c12',
+    poblacionTotal: 650000,
+    params: {
+      alpha: { valor: 0.027,        label: 'α — Crecimiento sano',  desc: 'Población estable de ~650.000 habitantes con leve crecimiento por la actividad turística y de servicios, sin el dinamismo demográfico extremo del AMBA.' },
+      beta:  { valor: 0.00000042,   label: 'β — Tasa de contagio',  desc: 'Alta por el flujo turístico veraniego: más de 7 millones de visitantes anuales concentrados en playas, hoteles, boliches y transporte saturado desde Buenos Aires.' },
+      delta: { valor: 0.00000035,   label: 'δ — Propagación viral', desc: 'Media-alta por aglomeraciones en la costanera, centro gastronómico y vida nocturna. Espacios cerrados mal ventilados en temporada alta potencian la transmisión.' },
+      gamma: { valor: 0.055,        label: 'γ — Recuperación',      desc: 'Media: Hospital Interzonal San Carlos de Borromée y red municipal ofrecen mejor cobertura que ciudades aisladas, pero la demanda estacional supera la capacidad en enero-febrero.' },
+      sanoInicial:      649900,
+      infectadoInicial: 100
+    }
+  },
+  // --- Agregar ciudades nuevas debajo ---
     id: 'rosario',
     nombre: 'Rosario',
     tipo: 'Universitaria / Industrial / Portuaria',

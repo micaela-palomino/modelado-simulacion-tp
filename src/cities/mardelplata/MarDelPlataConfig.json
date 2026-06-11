@@ -1,0 +1,29 @@
+{
+  "ciudad": "Mar del Plata",
+  "tipo": "Turística / Balnearia",
+  "provincia": "Buenos Aires",
+  "poblacion_inicial": 650000,
+
+  "parametros": {
+    "alpha": 0.027,
+    "beta": 0.00000042,
+    "delta": 0.00000035,
+    "gamma": 0.055
+  },
+
+  "condiciones_iniciales": {
+    "poblacion_sana": 649900,
+    "poblacion_infectada": 100
+  },
+
+  "simulacion": {
+    "dias": 365
+  },
+
+  "justificacion": {
+    "alpha": "Tasa de crecimiento moderada. Población estable de ~650.000 habitantes con leve crecimiento sostenido por la actividad turística y de servicios, sin el dinamismo demográfico extremo del AMBA.",
+    "beta": "Tasa de contagio alta. Más de 7 millones de turistas anuales concentrados en verano generan contacto intenso en playas, hoteles, boliches y transporte público saturado (trenes desde Constitución, micros interurbanos).",
+    "delta": "Propagación viral media-alta. Aglomeraciones en la costanera, centro gastronómico y vida nocturna crean focos de transmisión eficiente durante temporada alta, especialmente en espacios cerrados mal ventilados.",
+    "gamma": "Recuperación media. El Hospital Interzonal San Carlos de Borromée y la red municipal ofrecen mejor cobertura que ciudades aisladas o satélite, pero la demanda estacional en enero-febrero supera la capacidad instalada del sistema sanitario."
+  }
+}

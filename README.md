@@ -152,6 +152,24 @@ Cada subgrupo modela una ciudad argentina distinta. El objetivo es cubrir distin
 
 ---
 
+### Ciudad asignada: Mar del Plata (Grupo 11)
+
+| Dato | Valor |
+|---|---|
+| **Tipo** | Ciudad turística / balnearia |
+| **Población** | ~650.000 habitantes |
+| **Densidad** | Moderada-alta (~1.200 hab/km²) |
+| **Sistema de salud** | Medio: Hospital Interzonal San Carlos de Borromée, red municipal y clínicas privadas |
+| **Movilidad** | Alta estacional: millones de turistas en verano, trenes y micros desde Buenos Aires |
+
+**Justificación de parámetros:**
+- `β` alto → turismo veraniego masivo + playas, hoteles y boliches = mucho contagio
+- `δ` medio-alto → aglomeración en costanera y espacios cerrados en temporada alta
+- `γ` medio → mejor cobertura que ciudades aisladas, pero colapsa en enero-febrero
+- `α` moderado → población estable con crecimiento por servicios turísticos
+
+---
+
 ### Guía para elegir tu ciudad
 
 Cada grupo debe elegir una ciudad de un **tipo diferente** para maximizar la diversidad de resultados:
@@ -159,7 +177,7 @@ Cada grupo debe elegir una ciudad de un **tipo diferente** para maximizar la div
 | Tipo | Características clave | Ejemplos |
 |---|---|---|
 | **Metrópolis** | Altísima densidad, sistema de salud fuerte | Buenos Aires, Córdoba capital |
-| **Turística** | Alta movilidad estacional, infraestructura variable | Bariloche, Ushuaia, Mar del Plata |
+| **Turística** | Alta movilidad estacional, infraestructura variable | Bariloche, Ushuaia, Mar del Plata *(tomada)* |
 | **Rural** | Baja densidad, sistema de salud limitado | Chascomús, Mercedes, General Pico |
 | **Universitaria** | Alta densidad juvenil, movilidad estudiantil | La Plata, Rosario, Mendoza |
 | **Industrial** | Alta densidad laboral, acceso a salud variable | Zárate, Campana, San Nicolás |
@@ -223,3 +241,4 @@ Al comparar todas las ciudades, esperamos poder responder:
 | Grupo 4 | *(elegir ciudad)* | *(completar)* |
 | Grupo 5 | La Plata | Federico Pelech, Fernando Ale, Tatiana Tornillo |
 | Grupo 6 | *(elegir ciudad)* | *(completar)* |
+| Grupo 11 | Mar del Plata | Grupo 11 |

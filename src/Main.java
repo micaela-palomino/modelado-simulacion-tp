@@ -11,6 +11,37 @@
  */
 public class Main {
 
+    public static void main(String[] args) {
+        System.out.println("==========================================================");
+        System.out.println("TP Modelado y Simulación - Pandemia: Lotka-Volterra");
+        System.out.println("UADE - Trabajo Práctico Grupal");
+        System.out.println("==========================================================");
+        System.out.println();
+
+        // --- Simulación: La Matanza ---
+        LaMatanzaCity laMatanza = new LaMatanzaCity();
+        laMatanza.ejecutarYExportar();
+
+        // --- Simulación: Gran Mendoza ---
+        MendozaCity mendoza = new MendozaCity();
+        mendoza.ejecutarYExportar();
+
+        // --- Simulación: La Plata ---
+        LaPlataCity laPlata = new LaPlataCity();
+        laPlata.ejecutarYExportar();
+
+        // --- Simulación: Bariloche ---
+        BarilocheCity bariloche = new BarilocheCity();
+        bariloche.ejecutarYExportar();
+
+        // --- Simulación: Mar del Plata (Grupo 11) ---
+        MarDelPlataCity marDelPlata = new MarDelPlataCity();
+        marDelPlata.ejecutarYExportar();
+
+        System.out.println("==========================================================");
+        System.out.println("Simulaciones completadas. Abrí dashboard/index.html");
+        System.out.println("==========================================================");
+    }
         public static void main(String[] args) {
                 System.out.println("==========================================================");
                 System.out.println("TP Modelado y Simulación - Pandemia: Lotka-Volterra");
