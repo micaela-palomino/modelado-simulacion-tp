@@ -1,33 +1,29 @@
 {
-  "city": {
-    "name": "Rosario",
-    "province": "Santa Fe",
-    "country": "Argentina",
-    "population": 1300000,
-    "density_km2": 6800,
-    "healthcare_index": 0.62,
-    "connectivity_index": 0.78
-  },
-  "model_parameters": {
+  "ciudad": "Rosario",
+  "tipo": "Universitaria / Industrial / Portuaria",
+  "provincia": "Santa Fe",
+  "poblacion_inicial": 1300000,
+
+  "parametros": {
     "alpha": 0.030,
-    "beta": 2.80e-7,
-    "delta": 2.20e-7,
-    "gamma": 0.075,
-    "R0_estimated": 3.81
+    "beta": 0.00000028,
+    "delta": 0.00000022,
+    "gamma": 0.075
   },
-  "initial_conditions": {
-    "S0": 1299900,
-    "I0": 100
+
+  "condiciones_iniciales": {
+    "poblacion_sana": 1299900,
+    "poblacion_infectada": 100
   },
-  "simulation": {
-    "days": 730,
-    "dt": 0.1,
-    "method": "Runge-Kutta 4"
+
+  "simulacion": {
+    "dias": 365
   },
-  "parameter_justification": {
-    "alpha": "Resiliencia poblacional moderada. Capacidad de recuperación de la población sana considerando demografía y condiciones socioeconómicas de Rosario.",
-    "beta": "Tasa de contagio moderada-alta por alta densidad urbana, uso intensivo de transporte público (TUP) y actividad comercial/portuaria.",
-    "delta": "Propagación viral ligeramente menor a beta. Refleja conciencia sanitaria post-pandemia COVID-19 en la región.",
-    "gamma": "Tasa de recuperación basada en capacidad del sistema de salud rosarino (HECA, Alberdi, red de CAPS). ~14 días promedio de infección."
+
+  "justificacion": {
+    "alpha": "Resiliencia poblacional moderada. Rosario tiene crecimiento demográfico estable, fuerte presencia universitaria (UNR) y actividad portuaria que mantiene renovación poblacional constante.",
+    "beta": "Tasa de contagio moderada-alta. Alta densidad urbana en el macrocentro (~6.800 hab/km²) y uso intensivo del transporte público (TUP) generan contacto frecuente entre sanos e infectados.",
+    "delta": "Propagación viral moderada. La conectividad regional (Puerto de Rosario, Ruta 9, acceso al AMBA) potencia la dispersión del virus, aunque atenuada por la conciencia sanitaria post-COVID.",
+    "gamma": "Recuperación moderada. Sistema de salud de nivel medio: HECA, Hospital Alberdi y red de CAPS. Aproximadamente 14 días de infección promedio. El sistema se exige ante picos de brote masivo."
   }
 }
