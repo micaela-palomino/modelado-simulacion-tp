@@ -44,7 +44,9 @@ public class Main {
                 // --- Simulación: Gran Córdoba ---
                 CordobaCity cordoba = new CordobaCity();
                 cordoba.ejecutarYExportar();
-
+                // --- Simulación: Rosario ---
+                RosarioCity rosario = new RosarioCity();
+                rosario.ejecutarYExportar();
                 // --- Simulación: Ushuaia ---
                 UshuaiaCity ushuaia = new UshuaiaCity();
                 ushuaia.ejecutarYExportar();
