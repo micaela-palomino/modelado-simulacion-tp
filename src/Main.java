@@ -5,9 +5,9 @@
  * tanto a resources/ como a dashboard/data/ para el dashboard web.
  *
  * Para agregar una ciudad nueva:
- *   1. Crear la carpeta src/cities/tuciudad/
- *   2. Crear TuCiudadCity.java siguiendo el patrón de LaMatanzaCity
- *   3. Instanciar y llamar a ejecutarYExportar() en este main
+ * 1. Crear la carpeta src/cities/tuciudad/
+ * 2. Crear TuCiudadCity.java siguiendo el patrón de LaMatanzaCity
+ * 3. Instanciar y llamar a ejecutarYExportar() en este main
  */
 public class Main {
 
@@ -41,6 +41,9 @@ public class Main {
         CordobaCity cordoba = new CordobaCity();
         cordoba.ejecutarYExportar();
 
+        // --- Simulación: Rosario ---
+        RosarioCity rosario = new RosarioCity();
+        rosario.ejecutarYExportar();
         // --- Simulación: Ushuaia ---
         UshuaiaCity ushuaia = new UshuaiaCity();
         ushuaia.ejecutarYExportar();

@@ -1,0 +1,33 @@
+{
+  "city": {
+    "name": "Rosario",
+    "province": "Santa Fe",
+    "country": "Argentina",
+    "population": 1300000,
+    "density_km2": 6800,
+    "healthcare_index": 0.62,
+    "connectivity_index": 0.78
+  },
+  "model_parameters": {
+    "alpha": 0.030,
+    "beta": 2.80e-7,
+    "delta": 2.20e-7,
+    "gamma": 0.075,
+    "R0_estimated": 3.81
+  },
+  "initial_conditions": {
+    "S0": 1299900,
+    "I0": 100
+  },
+  "simulation": {
+    "days": 730,
+    "dt": 0.1,
+    "method": "Runge-Kutta 4"
+  },
+  "parameter_justification": {
+    "alpha": "Resiliencia poblacional moderada. Capacidad de recuperación de la población sana considerando demografía y condiciones socioeconómicas de Rosario.",
+    "beta": "Tasa de contagio moderada-alta por alta densidad urbana, uso intensivo de transporte público (TUP) y actividad comercial/portuaria.",
+    "delta": "Propagación viral ligeramente menor a beta. Refleja conciencia sanitaria post-pandemia COVID-19 en la región.",
+    "gamma": "Tasa de recuperación basada en capacidad del sistema de salud rosarino (HECA, Alberdi, red de CAPS). ~14 días promedio de infección."
+  }
+}
