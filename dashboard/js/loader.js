@@ -50,17 +50,16 @@ const CIUDADES = [
     colorRecuperados: '#1abc9c',
     poblacionTotal: 1100000,
     params: {
-      alpha: { valor: 0.025,        label: 'α — Crecimiento sano',  desc: 'Población metropolitana estable con renovación constante por la comunidad universitaria (UNCuyo, UTN, UM), sin el dinamismo demográfico extremo del AMBA.' },
-      beta:  { valor: 0.000000090,  label: 'β — Tasa de contagio',  desc: 'Densidad moderada (~600 hab/km²), pero el turismo estacional (ski, vendimia) y la alta movilidad estudiantil generan picos de contacto que elevan el contagio.' },
-      delta: { valor: 0.000000075,  label: 'δ — Propagación viral', desc: 'Clima seco andino y menor humedad favorecen la ventilación natural. Los espacios cerrados en invierno compensan parcialmente esta ventaja.' },
-      gamma: { valor: 0.075,        label: 'γ — Recuperación',      desc: 'Hospital Central de Mendoza como referencia regional + red provincial (Lagomaggiore, Schestakow) + sector privado desarrollado. Mejor cobertura que ciudades satélite del AMBA.' },
-      sanoInicial:      1099900,
+      alpha: { valor: 0.025, label: 'α — Crecimiento sano', desc: 'Población metropolitana estable con renovación constante por la comunidad universitaria (UNCuyo, UTN, UM), sin el dinamismo demográfico extremo del AMBA.' },
+      beta: { valor: 0.000000090, label: 'β — Tasa de contagio', desc: 'Densidad moderada (~600 hab/km²), pero el turismo estacional (ski, vendimia) y la alta movilidad estudiantil generan picos de contacto que elevan el contagio.' },
+      delta: { valor: 0.000000075, label: 'δ — Propagación viral', desc: 'Clima seco andino y menor humedad favorecen la ventilación natural. Los espacios cerrados en invierno compensan parcialmente esta ventaja.' },
+      gamma: { valor: 0.075, label: 'γ — Recuperación', desc: 'Hospital Central de Mendoza como referencia regional + red provincial (Lagomaggiore, Schestakow) + sector privado desarrollado. Mejor cobertura que ciudades satélite del AMBA.' },
+      sanoInicial: 1099900,
       infectadoInicial: 100
     }
   },
-  // --- Agregar ciudades nuevas debajo ---
   {
-      id: 'rosario',
+    id: 'rosario',
     nombre: 'Rosario',
     tipo: 'Universitaria / Industrial / Portuaria',
     color: '#3b82f6',
@@ -69,11 +68,28 @@ const CIUDADES = [
     poblacionTotal: 1300000,
     params: {
       alpha: { valor: 0.030, label: 'α — Crecimiento sano', desc: 'Resiliencia poblacional moderada. Ciudad con crecimiento demográfico estable, fuerte presencia universitaria (UNR) y actividad portuaria que mantiene cierta renovación poblacional.' },
-      beta:  { valor: 0.00000028, label: 'β — Tasa de contagio', desc: 'Moderada-alta: densidad urbana elevada en el macrocentro y uso intensivo del transporte público (TUP) generan contacto frecuente entre sanos e infectados.' },
+      beta: { valor: 0.00000028, label: 'β — Tasa de contagio', desc: 'Moderada-alta: densidad urbana elevada en el macrocentro y uso intensivo del transporte público (TUP) generan contacto frecuente entre sanos e infectados.' },
       delta: { valor: 0.00000022, label: 'δ — Propagación viral', desc: 'Moderada: el movimiento portuario y la conectividad regional (Ruta 9, acceso a AMBA) potencian la propagación, atenuada por conciencia sanitaria post-COVID.' },
       gamma: { valor: 0.075, label: 'γ — Recuperación', desc: 'Moderada: sistema de salud de nivel medio (HECA, Hospital Alberdi, red de CAPS). Aproximadamente 14 días de infección promedio. Exigido en picos de brote.' },
       sanoInicial: 1299900,
       infectadoInicial: 100
+    }
+  },
+  {
+    id: 'ushuaia',
+    nombre: 'Ushuaia',
+    tipo: 'Turística / Patagónica aislada',
+    color: '#16a085',
+    colorSanos: '#2980b9',
+    colorRecuperados: '#27ae60',
+    poblacionTotal: 90000,
+    params: {
+      alpha: { valor: 0.020, label: 'α — Crecimiento sano', desc: 'Tasa baja-moderada. Ushuaia crece principalmente por migración laboral (zona franca, turismo, empleo estatal); base poblacional pequeña y estabilizada en ~90.000 hab.' },
+      beta: { valor: 0.0000013, label: 'β — Tasa de contagio', desc: 'Muy alta para su tamaño. Más de 300.000 turistas/año más cruceros antárticos; en temporada alta la ciudad puede casi duplicar su población transitoria. Un crucero aporta más pasajeros que el 1 % del padrón local.' },
+      delta: { valor: 0.0000010, label: 'δ — Propagación viral', desc: 'Alta. Los inviernos fríos concentran a la población en espacios cerrados (hoteles, refugios, teleférico, remises turísticos), donde la escasa ventilación potencia la eficiencia del virus.' },
+      gamma: { valor: 0.030, label: 'γ — Recuperación', desc: 'Muy baja. El Hospital Regional de Ushuaia es el único hospital público provincial (nivel III). Las derivaciones a Buenos Aires (3.200 km, mínimo 3 h de vuelo) son costosas y dependientes del clima patagónico; un brote masivo colapsa el sistema rápidamente.' },
+      sanoInicial: 89970,
+      infectadoInicial: 30
     }
   },
   {
@@ -85,12 +101,29 @@ const CIUDADES = [
     colorRecuperados: '#1abc9c',
     poblacionTotal: 133000,
     params: {
-      alpha: { valor: 0.03,        label: 'α — Crecimiento sano',   desc: 'Población estable con crecimiento moderado por migración. Ciudad joven que atrae residentes del sector turístico y servicios.' },
-      beta:  { valor: 0.00000085,  label: 'β — Tasa de contagio',   desc: 'Alta por el flujo turístico estacional: entre 500.000 y 1.000.000 de visitantes anuales concentrados en temporadas de ski y verano generan contacto intenso con la población local.' },
-      delta: { valor: 0.00000070,  label: 'δ — Propagación viral',  desc: 'Media-alta por la concentración en espacios cerrados durante temporada alta: hoteles, refugios de montaña, teleféricos y transporte turístico.' },
-      gamma: { valor: 0.040,       label: 'γ — Recuperación',       desc: 'Baja: el Hospital Zonal Ramón Carrillo es el único hospital público de referencia para ~150.000 km² de región. Aislamiento geográfico (1.650 km de CABA) retrasa derivaciones y refuerzos.' },
-      sanoInicial:      132950,
+      alpha: { valor: 0.03, label: 'α — Crecimiento sano', desc: 'Población estable con crecimiento moderado por migración. Ciudad joven que atrae residentes del sector turístico y servicios.' },
+      beta: { valor: 0.00000085, label: 'β — Tasa de contagio', desc: 'Alta por el flujo turístico estacional: entre 500.000 y 1.000.000 de visitantes anuales concentrados en temporadas de ski y verano generan contacto intenso con la población local.' },
+      delta: { valor: 0.00000070, label: 'δ — Propagación viral', desc: 'Media-alta por la concentración en espacios cerrados durante temporada alta: hoteles, refugios de montaña, teleféricos y transporte turístico.' },
+      gamma: { valor: 0.040, label: 'γ — Recuperación', desc: 'Baja: el Hospital Zonal Ramón Carrillo es el único hospital público de referencia para ~150.000 km² de región. Aislamiento geográfico (1.650 km de CABA) retrasa derivaciones y refuerzos.' },
+      sanoInicial: 132950,
       infectadoInicial: 50
+    }
+  },
+  {
+    id: 'elbolson',
+    nombre: 'El Bolsón',
+    tipo: 'Turística / Aislada',
+    color: '#d35400',
+    colorSanos: '#16a085',
+    colorRecuperados: '#2ecc71',
+    poblacionTotal: 25000,
+    params: {
+      alpha: { valor: 0.04, label: 'α — Crecimiento sano', desc: 'Localidad turística pequena con recambio demografico moderado por migracion interna y visitantes de temporada.' },
+      beta: { valor: 0.00000008, label: 'β — Tasa de contagio', desc: 'La concentracion de actividad en comercios, ferias y turismo estacional eleva la probabilidad de contacto entre sanos e infectados.' },
+      delta: { valor: 0.00000180, label: 'δ — Propagacion viral', desc: 'Los espacios cerrados y la actividad turistica concentrada pueden hacer muy eficiente la transmision del virus.' },
+      gamma: { valor: 0.000000085, label: 'γ — Recuperacion', desc: 'Escala sanitaria mas limitada que en ciudades grandes, lo que reduce la velocidad de recuperacion ante un brote rapido.' },
+      sanoInicial: 24990,
+      infectadoInicial: 10
     }
   },
   {
@@ -102,11 +135,11 @@ const CIUDADES = [
     colorRecuperados: '#27ae60',  // recuperados
     poblacionTotal: 1500000,
     params: {
-      alpha: { valor: 0.030,       label: 'α — Crecimiento sano',  desc: 'Ciudad joven y universitaria ("La Docta") con fuerte renovación poblacional por la llegada constante de estudiantes del interior del país.' },
-      beta:  { valor: 0.00000017,  label: 'β — Tasa de contagio',  desc: 'Alta: gran densidad del casco céntrico, transporte urbano masivo y una enorme población universitaria (UNC, UTN, privadas) que se concentra en facultades, bares y eventos. R0 ≈ 3.6.' },
-      delta: { valor: 0.00000014,  label: 'δ — Propagación viral', desc: 'Alta: el hacinamiento en aulas, transporte y vida nocturna estudiantil potencia la eficiencia del contagio, atenuado solo parcialmente por el clima mediterráneo seco.' },
-      gamma: { valor: 0.070,       label: 'γ — Recuperación',      desc: 'Moderada-buena: polo sanitario del centro del país (Hospital de Urgencias, Hospital Córdoba, Hospital Privado, Sanatorio Allende) + Facultad de Ciencias Médicas de la UNC. Exigido ante un brote masivo.' },
-      sanoInicial:      1499900,
+      alpha: { valor: 0.030, label: 'α — Crecimiento sano', desc: 'Ciudad joven y universitaria ("La Docta") con fuerte renovación poblacional por la llegada constante de estudiantes del interior del país.' },
+      beta: { valor: 0.00000017, label: 'β — Tasa de contagio', desc: 'Alta: gran densidad del casco céntrico, transporte urbano masivo y una enorme población universitaria (UNC, UTN, privadas) que se concentra en facultades, bares y eventos. R0 ≈ 3.6.' },
+      delta: { valor: 0.00000014, label: 'δ — Propagación viral', desc: 'Alta: el hacinamiento en aulas, transporte y vida nocturna estudiantil potencia la eficiencia del contagio, atenuado solo parcialmente por el clima mediterráneo seco.' },
+      gamma: { valor: 0.070, label: 'γ — Recuperación', desc: 'Moderada-buena: polo sanitario del centro del país (Hospital de Urgencias, Hospital Córdoba, Hospital Privado, Sanatorio Allende) + Facultad de Ciencias Médicas de la UNC. Exigido ante un brote masivo.' },
+      sanoInicial: 1499900,
       infectadoInicial: 100
     }
   },

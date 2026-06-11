@@ -1,0 +1,29 @@
+{
+  "ciudad": "Ushuaia",
+  "tipo": "Turística / Patagónica aislada",
+  "provincia": "Tierra del Fuego, Antártida e Islas del Atlántico Sur",
+  "poblacion_inicial": 90000,
+
+  "parametros": {
+    "alpha": 0.020,
+    "beta": 0.0000013,
+    "delta": 0.0000010,
+    "gamma": 0.030
+  },
+
+  "condiciones_iniciales": {
+    "poblacion_sana": 89970,
+    "poblacion_infectada": 30
+  },
+
+  "simulacion": {
+    "dias": 365
+  },
+
+  "justificacion": {
+    "alpha": "Tasa de crecimiento baja-moderada. Ushuaia crece por migración laboral (zona franca industrial, turismo, empleo estatal), pero su base poblacional es pequeña (~90.000 hab.) y está estabilizada.",
+    "beta": "Tasa de contagio muy alta para su tamaño. El flujo turístico supera los 300.000 visitantes/año más cruceros antárticos; en temporada alta la ciudad puede duplicar su población transitoria. Un solo crucero aporta más pasajeros que el 1 % del padrón local.",
+    "delta": "Propagación alta. Inviernos fríos concentran a la población en espacios cerrados (hoteles, refugios, teleférico, remises turísticos). La escasa ventilación natural en la temporada baja potencia la eficiencia del virus.",
+    "gamma": "Recuperación muy baja. El Hospital Regional de Ushuaia es el único hospital público de la provincia (nivel III). Las derivaciones a Buenos Aires (3.200 km, viaje aéreo mínimo de 3 h) son costosas, lentas y dependientes del clima patagónico. Ante un brote masivo el sistema colapsa rápido."
+  }
+}
